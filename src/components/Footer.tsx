@@ -2,9 +2,10 @@ import Link from 'next/link'
 
 export function Footer() {
   return (
-    <footer className="py-12 px-4 border-t border-white/8">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-        <div>
+    <footer className="py-10 sm:py-12 px-4 border-t border-white/8">
+      <div className="max-w-5xl mx-auto flex flex-col items-center gap-6 sm:gap-8">
+        {/* Logo + tagline */}
+        <div className="text-center">
           <p
             className="text-sm text-[#e8e4e0]"
             style={{ fontFamily: 'var(--font-heading)' }}
@@ -14,7 +15,8 @@ export function Footer() {
           <p className="text-xs text-[#555] mt-0.5">A subsidiary of Apex Metals · Johannesburg, South Africa</p>
         </div>
 
-        <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-[#8a8580]">
+        {/* Nav links */}
+        <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-[#8a8580]">
           <Link href="/#services" className="hover:text-[#D4AF37] transition-colors">
             Services
           </Link>
@@ -27,15 +29,23 @@ export function Footer() {
           <Link href="/#contact" className="hover:text-[#D4AF37] transition-colors">
             Contact
           </Link>
+        </nav>
+
+        {/* Phone numbers */}
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-[#8a8580]">
           <a href="tel:0615456926" className="hover:text-[#D4AF37] transition-colors">
             061 545 6926
           </a>
           <a href="tel:0714907858" className="hover:text-[#D4AF37] transition-colors">
             071 490 7858
           </a>
-        </nav>
+          <a href="mailto:ApexLogistics@gmail.com" className="hover:text-[#D4AF37] transition-colors">
+            ApexLogistics@gmail.com
+          </a>
+        </div>
 
-        <div className="flex flex-col items-center md:items-end gap-2">
+        {/* Legal + copyright */}
+        <div className="flex flex-col items-center gap-2">
           <nav className="flex items-center gap-4 text-xs text-[#555]">
             <Link href="/terms" className="hover:text-[#D4AF37] transition-colors">
               Terms of Service

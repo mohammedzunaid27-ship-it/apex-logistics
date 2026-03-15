@@ -66,13 +66,18 @@ export default function DataLines() {
       traces = []
       travelers = []
 
-      // Randomly spaced traces — cluster some, spread others
+      // Randomly spaced traces — fewer on mobile for performance
+      const isMobile = w < 768
       const xPositions: number[] = []
       let cursor = 30 + rng() * 40
       while (cursor < w - 30) {
         xPositions.push(snap(cursor))
-        // Random gap: sometimes tight (30-60px), sometimes wide (100-180px)
-        cursor += rng() < 0.4 ? 30 + rng() * 35 : 90 + rng() * 100
+        // Wider gaps on mobile, tighter on desktop
+        if (isMobile) {
+          cursor += 80 + rng() * 120
+        } else {
+          cursor += rng() < 0.4 ? 30 + rng() * 35 : 90 + rng() * 100
+        }
       }
 
       for (let i = 0; i < xPositions.length; i++) {
@@ -146,8 +151,8 @@ export default function DataLines() {
         }
         traces.push({ points, lengths, totalLen: total })
 
-        // 2-5 travelers per trace
-        const tCount = 2 + Math.floor(rng() * 4)
+        // Fewer travelers on mobile
+        const tCount = isMobile ? 1 + Math.floor(rng() * 2) : 2 + Math.floor(rng() * 4)
         for (let t = 0; t < tCount; t++) {
           travelers.push({
             traceIdx: i,
