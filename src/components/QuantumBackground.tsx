@@ -55,20 +55,23 @@ export default function QuantumBackground() {
     setIsMobile(window.innerWidth < 768)
   }, [])
 
+  // No WebGL on mobile — eliminates GPU drain entirely
+  if (isMobile) return null
+
   return (
     <div className="pointer-events-none fixed inset-0 -z-10">
       <Canvas
         camera={{ position: [0, 0, 7], fov: 45 }}
-        gl={{ antialias: !isMobile, alpha: true, powerPreference: isMobile ? 'low-power' : 'high-performance' }}
-        dpr={isMobile ? 1 : [1, 2]}
-        frameloop={isMobile ? 'demand' : 'always'}
+        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        dpr={[1, 2]}
+        frameloop="always"
         style={{ background: 'transparent' }}
       >
         <ambientLight intensity={0.4} />
         <directionalLight position={[5, 5, 5]} intensity={0.7} color="#f5f0e8" />
         <pointLight position={[-3, 2, 4]} intensity={0.4} color="#D4AF37" />
-        {!isMobile && <pointLight position={[3, -2, 3]} intensity={0.2} color="#f5f0e8" />}
-        <RotatingSphere isStatic={isMobile} />
+        <pointLight position={[3, -2, 3]} intensity={0.2} color="#f5f0e8" />
+        <RotatingSphere isStatic={false} />
       </Canvas>
     </div>
   )

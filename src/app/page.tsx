@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
-import { Truck, Package, Shield, ArrowRight, Brain, Route, Lock, Gauge, Cpu, Satellite } from 'lucide-react'
+import { Truck, Package, Shield, ArrowRight, Brain, Route, Lock, Gauge, Cpu, Satellite, ShieldCheck } from 'lucide-react'
 import { heading } from '@/lib/fonts'
 import { useIsMobile } from '@/hooks/useIsMobile'
 
@@ -51,8 +51,8 @@ export default function Page() {
       {/* WebGL sphere — always rendered, static on mobile */}
       <QuantumBackground />
 
-      {/* Warm ambient glow orb — smaller on mobile */}
-      <div className="pointer-events-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[800px] md:h-[800px] bg-[#D4AF37]/10 blur-[80px] md:blur-[150px] rounded-full -z-[5]" />
+      {/* Warm ambient glow orb — desktop only */}
+      <div className="pointer-events-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#D4AF37]/10 blur-[150px] rounded-full -z-[5] hidden md:block" />
 
       <div className="relative min-h-screen">
         {/* Animated circuit data lines — fewer on mobile */}
@@ -115,6 +115,64 @@ export default function Page() {
               Explore Services
             </a>
           </motion.div>
+        </section>
+
+        {/* ── Insurance & Goods Protection ── */}
+        <section id="insurance" className="px-4 py-16 sm:py-28">
+          <div className="mx-auto max-w-3xl">
+            <motion.div
+              className={`${card} p-6 sm:p-10 border-[#D4AF37]/20 relative overflow-hidden`}
+              {...fadeUp}
+              {...liftCard}
+            >
+              {/* Gold accent bar */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
+
+              <div className="flex items-start gap-4 sm:gap-6">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#D4AF37]/10 border border-[#D4AF37]/20">
+                  <ShieldCheck size={28} className="text-[#D4AF37]" />
+                </div>
+                <div>
+                  <p className="text-[10px] tracking-[0.3em] text-[#D4AF37] uppercase mb-1.5">
+                    Full Coverage Guarantee
+                  </p>
+                  <h2 className="text-xl sm:text-2xl font-semibold text-[#e8e4e0] md:text-3xl">
+                    Your Goods Are Insured
+                  </h2>
+                </div>
+              </div>
+
+              <p className="mt-5 text-sm leading-relaxed text-[#8a8580]">
+                Every shipment handled by Apex Logistics is covered by comprehensive transit insurance from the
+                moment we collect your goods to the point of delivery. Our policy covers loss, theft, accidental
+                damage, and fire while your cargo is in our custody.
+              </p>
+
+              <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                <div className="rounded-xl bg-white/5 border border-white/5 p-4">
+                  <p className="text-lg font-semibold text-[#e8e4e0]">Door-to-Door</p>
+                  <p className="mt-1 text-xs text-[#8a8580]">Coverage from collection point to final delivery address</p>
+                </div>
+                <div className="rounded-xl bg-white/5 border border-white/5 p-4">
+                  <p className="text-lg font-semibold text-[#e8e4e0]">All-Risk</p>
+                  <p className="mt-1 text-xs text-[#8a8580]">Theft, damage, fire, accidents, and natural disasters covered</p>
+                </div>
+                <div className="rounded-xl bg-white/5 border border-white/5 p-4">
+                  <p className="text-lg font-semibold text-[#e8e4e0]">Fast Claims</p>
+                  <p className="mt-1 text-xs text-[#8a8580]">Claims processed within 7 business days with full documentation support</p>
+                </div>
+              </div>
+
+              <p className="mt-5 text-xs text-[#555] leading-relaxed">
+                Clients transporting high-value cargo (metals, machinery, electronics) may request enhanced
+                coverage. Contact our operations team for a tailored insurance quote. See our{' '}
+                <a href="/terms" className="text-[#D4AF37] underline underline-offset-2 hover:text-[#F3E5AB]">
+                  Terms of Service
+                </a>{' '}
+                for full liability details.
+              </p>
+            </motion.div>
+          </div>
         </section>
 
         {/* ── Tracking ── */}

@@ -60,7 +60,23 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-lg text-[#e8e4e0] mb-3">5. Cookies</h2>
+              <h2 className="text-lg text-[#e8e4e0] mb-3">5. Insurance &amp; Claims Data</h2>
+              <p className="mb-3">
+                When you make use of our transit insurance coverage or submit a claim, we collect and process additional information including:
+              </p>
+              <ul className="list-disc pl-5 space-y-1.5 mb-3">
+                <li><span className="text-[#e8e4e0]">Cargo details:</span> declared value, item descriptions, photographs of goods before and after transit</li>
+                <li><span className="text-[#e8e4e0]">Incident data:</span> date, location, and nature of any loss, theft, or damage</li>
+                <li><span className="text-[#e8e4e0]">Supporting documents:</span> invoices, receipts, proof of ownership, and any police report references</li>
+                <li><span className="text-[#e8e4e0]">Banking details:</span> required solely for processing claim payouts via EFT</li>
+              </ul>
+              <p>
+                Insurance-related data is shared only with our underwriting partners for the purpose of processing and settling claims. This data is retained for a minimum of 5 years in compliance with South African insurance and financial regulation. All insurance data is encrypted and access-controlled to authorised personnel only.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-lg text-[#e8e4e0] mb-3">6. Cookies</h2>
               <p>
                 Our website uses cookies to enhance your browsing experience and analyse traffic. You can manage cookie preferences through your browser settings or via our cookie consent banner. We use:
               </p>
@@ -71,28 +87,28 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-lg text-[#e8e4e0] mb-3">6. Data Sharing</h2>
+              <h2 className="text-lg text-[#e8e4e0] mb-3">7. Data Sharing</h2>
               <p>
                 We do not sell your personal information. We may share data with trusted third parties solely for service delivery (e.g., insurance providers, subcontracted carriers). All third parties are contractually bound to protect your data in accordance with POPIA.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg text-[#e8e4e0] mb-3">7. Data Security</h2>
+              <h2 className="text-lg text-[#e8e4e0] mb-3">8. Data Security</h2>
               <p>
                 We employ industry-standard security measures including TLS encryption, access controls, and regular security audits to protect your personal information against unauthorised access, alteration, or destruction.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg text-[#e8e4e0] mb-3">8. Data Retention</h2>
+              <h2 className="text-lg text-[#e8e4e0] mb-3">9. Data Retention</h2>
               <p>
                 Personal information is retained only for as long as necessary to fulfil the purposes for which it was collected, or as required by law. Shipment records are retained for a minimum of 5 years in compliance with South African tax and commercial legislation.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg text-[#e8e4e0] mb-3">9. Your Rights</h2>
+              <h2 className="text-lg text-[#e8e4e0] mb-3">10. Your Rights</h2>
               <p>Under POPIA, you have the right to:</p>
               <ul className="list-disc pl-5 space-y-1.5 mt-3">
                 <li>Request access to the personal information we hold about you</li>
@@ -103,7 +119,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-lg text-[#e8e4e0] mb-3">10. Contact</h2>
+              <h2 className="text-lg text-[#e8e4e0] mb-3">11. Contact</h2>
               <p>
                 For privacy-related enquiries or to exercise your rights, contact our Information Officer at{' '}
                 <a href="mailto:ApexLogistics@gmail.com" className="text-[#D4AF37] hover:text-[#F3E5AB]">ApexLogistics@gmail.com</a>
