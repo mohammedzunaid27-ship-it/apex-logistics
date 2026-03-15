@@ -32,6 +32,9 @@ export default function DataLines() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    // No canvas animation on mobile — eliminates all GPU/CPU overhead
+    if (window.innerWidth < 768) return
+
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')

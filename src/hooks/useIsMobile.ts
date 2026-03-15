@@ -1,17 +1,26 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useSyncExternalStore } from 'react'
+
+function subscribe(cb: () => void) {
+  window.addEventListener('resize', cb)
+  return () => window.removeEventListener('resize', cb)
+}
+
+function getSnapshot(breakpoint: number) {
+  return window.innerWidth < breakpoint
+}
+
+function getServerSnapshot() {
+  // Server: return false (assume desktop) so fadeUp animations get initial: opacity 0
+  // This ensures whileInView works correctly after hydration
+  return false
+}
 
 export function useIsMobile(breakpoint = 768) {
-  // Default true (mobile-first) so content is always visible on first paint
-  const [isMobile, setIsMobile] = useState(true)
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < breakpoint)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [breakpoint])
-
-  return isMobile
+  return useSyncExternalStore(
+    subscribe,
+    () => getSnapshot(breakpoint),
+    () => getServerSnapshot(),
+  )
 }
