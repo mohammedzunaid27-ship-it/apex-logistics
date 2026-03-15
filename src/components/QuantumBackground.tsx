@@ -1,15 +1,16 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { Mesh } from 'three'
 
-function RotatingSphere() {
+function RotatingSphere({ isStatic }: { isStatic: boolean }) {
   const meshRef = useRef<Mesh>(null)
   const wireRef = useRef<Mesh>(null)
 
   useFrame((_, delta) => {
+    if (isStatic) return
     if (meshRef.current) {
       meshRef.current.rotation.y += delta * 0.15
       meshRef.current.rotation.x += delta * 0.05
@@ -24,7 +25,7 @@ function RotatingSphere() {
     <group position={[0, 0, 0]}>
       {/* Deep matte graphite sphere */}
       <mesh ref={meshRef}>
-        <sphereGeometry args={[2.2, 64, 64]} />
+        <sphereGeometry args={[2.2, isStatic ? 32 : 64, isStatic ? 32 : 64]} />
         <meshStandardMaterial
           color="#121212"
           metalness={0.8}
@@ -34,7 +35,7 @@ function RotatingSphere() {
 
       {/* Champagne gold wireframe halo */}
       <mesh ref={wireRef} scale={1.2}>
-        <icosahedronGeometry args={[2.2, 3]} />
+        <icosahedronGeometry args={[2.2, isStatic ? 2 : 3]} />
         <meshBasicMaterial
           color="#D4AF37"
           wireframe
@@ -48,18 +49,26 @@ function RotatingSphere() {
 }
 
 export default function QuantumBackground() {
+  const [isMobile, setIsMobile] = useState(true)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+  }, [])
+
   return (
     <div className="pointer-events-none fixed inset-0 -z-10">
       <Canvas
         camera={{ position: [0, 0, 7], fov: 45 }}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ antialias: !isMobile, alpha: true, powerPreference: isMobile ? 'low-power' : 'high-performance' }}
+        dpr={isMobile ? 1 : [1, 2]}
+        frameloop={isMobile ? 'demand' : 'always'}
         style={{ background: 'transparent' }}
       >
         <ambientLight intensity={0.4} />
         <directionalLight position={[5, 5, 5]} intensity={0.7} color="#f5f0e8" />
         <pointLight position={[-3, 2, 4]} intensity={0.4} color="#D4AF37" />
-        <pointLight position={[3, -2, 3]} intensity={0.2} color="#f5f0e8" />
-        <RotatingSphere />
+        {!isMobile && <pointLight position={[3, -2, 3]} intensity={0.2} color="#f5f0e8" />}
+        <RotatingSphere isStatic={isMobile} />
       </Canvas>
     </div>
   )

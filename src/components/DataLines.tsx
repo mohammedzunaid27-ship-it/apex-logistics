@@ -66,16 +66,19 @@ export default function DataLines() {
       traces = []
       travelers = []
 
-      // Randomly spaced traces — fewer on mobile for performance
+      // Fewer traces on mobile — just 4-5 with wide spacing
       const isMobile = w < 768
       const xPositions: number[] = []
-      let cursor = 30 + rng() * 40
-      while (cursor < w - 30) {
-        xPositions.push(snap(cursor))
-        // Wider gaps on mobile, tighter on desktop
-        if (isMobile) {
-          cursor += 80 + rng() * 120
-        } else {
+      if (isMobile) {
+        const mobileCount = 4 + Math.floor(rng() * 2) // 4 or 5
+        const spacing = w / (mobileCount + 1)
+        for (let m = 0; m < mobileCount; m++) {
+          xPositions.push(snap(spacing * (m + 1) + (rng() - 0.5) * 20))
+        }
+      } else {
+        let cursor = 30 + rng() * 40
+        while (cursor < w - 30) {
+          xPositions.push(snap(cursor))
           cursor += rng() < 0.4 ? 30 + rng() * 35 : 90 + rng() * 100
         }
       }

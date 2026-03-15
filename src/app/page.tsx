@@ -48,22 +48,15 @@ export default function Page() {
 
   return (
     <>
-      {/* WebGL + DataLines — desktop only */}
-      {!mobile && (
-        <>
-          <QuantumBackground />
-          <div className="relative min-h-0">
-            <DataLines />
-          </div>
-        </>
-      )}
+      {/* WebGL sphere — always rendered, static on mobile */}
+      <QuantumBackground />
 
       {/* Warm ambient glow orb — smaller on mobile */}
       <div className="pointer-events-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[800px] md:h-[800px] bg-[#D4AF37]/10 blur-[80px] md:blur-[150px] rounded-full -z-[5]" />
 
       <div className="relative min-h-screen">
-        {/* Desktop-only DataLines inside content flow */}
-        {!mobile && <DataLines />}
+        {/* Animated circuit data lines — fewer on mobile */}
+        <DataLines />
 
         {/* ── Hero ── */}
         <section className="flex min-h-[100svh] flex-col items-center justify-center px-4 pt-24 sm:pt-28 pb-16 sm:pb-20">
