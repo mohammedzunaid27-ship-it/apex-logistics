@@ -109,6 +109,23 @@ h6 {
   background: #3a3530;
 }
 
+/* ── Performance-safe glass card ── */
+/* Mobile: solid dark bg, no blur (massive GPU saving) */
+/* Desktop: full glassmorphism with backdrop-blur */
+.glass-card-perf {
+  background: rgba(18, 18, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+@media (min-width: 768px) {
+  .glass-card-perf {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+  }
+}
+
 /* ── Focus ring ── */
 :focus-visible {
   outline: 2px solid #D4AF37;
