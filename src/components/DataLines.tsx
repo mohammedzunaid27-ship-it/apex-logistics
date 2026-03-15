@@ -154,13 +154,22 @@ export default function DataLines() {
         }
         traces.push({ points, lengths, totalLen: total })
 
-        // Fewer travelers on mobile
-        const tCount = isMobile ? 1 + Math.floor(rng() * 2) : 2 + Math.floor(rng() * 4)
-        for (let t = 0; t < tCount; t++) {
+        // Mobile: only 3 travelers TOTAL across all traces, desktop: 2-5 per trace
+        if (!isMobile) {
+          const tCount = 2 + Math.floor(rng() * 4)
+          for (let t = 0; t < tCount; t++) {
+            travelers.push({
+              traceIdx: i,
+              dist: rng() * total,
+              speed: 25 + rng() * 70,
+              direction: rng() > 0.5 ? 1 : -1,
+            })
+          }
+        } else if (travelers.length < 3) {
           travelers.push({
             traceIdx: i,
             dist: rng() * total,
-            speed: 25 + rng() * 70,
+            speed: 20 + rng() * 40,
             direction: rng() > 0.5 ? 1 : -1,
           })
         }
@@ -200,7 +209,14 @@ export default function DataLines() {
       return 1
     }
 
+    const isMobileView = window.innerWidth < 768
+    const FRAME_INTERVAL = isMobileView ? 50 : 0 // ~20fps on mobile, uncapped on desktop
+
     function draw(time: number) {
+      if (FRAME_INTERVAL && lastTime && time - lastTime < FRAME_INTERVAL) {
+        animId = requestAnimationFrame(draw)
+        return
+      }
       const dt = lastTime ? (time - lastTime) / 1000 : 0.016
       lastTime = time
 
