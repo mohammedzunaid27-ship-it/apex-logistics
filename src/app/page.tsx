@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { Truck, Package, Shield, ArrowRight, Brain, Route, Lock, Gauge, Cpu, Satellite, ShieldCheck } from 'lucide-react'
 import { heading } from '@/lib/fonts'
-import { useIsMobile } from '@/hooks/useIsMobile'
 
 const QuantumBackground = dynamic(() => import('@/components/QuantumBackground'), {
   ssr: false,
@@ -16,69 +15,60 @@ const DataLines = dynamic(() => import('@/components/DataLines'), {
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-/* Card class: blur on desktop, solid bg on mobile */
 const card = 'glass-card-perf rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-shadow duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.4)]'
 
+const fadeUp = {
+  initial: { opacity: 0, y: 40 } as const,
+  whileInView: { opacity: 1, y: 0 } as const,
+  viewport: { once: true, margin: '-60px' } as const,
+  transition: { duration: 0.6, ease },
+}
+
+const liftCard = {
+  whileHover: {
+    y: -12,
+    scale: 1.02,
+    transition: { type: 'spring' as const, stiffness: 300, damping: 20 },
+  },
+}
+
 export default function Page() {
-  const mobile = useIsMobile()
-
-  // On mobile: no JS animations, everything renders instantly
-  const fadeUp = mobile
-    ? {}
-    : {
-        initial: { opacity: 0, y: 40 } as const,
-        whileInView: { opacity: 1, y: 0 } as const,
-        viewport: { once: true, margin: '-60px' } as const,
-        transition: { duration: 0.6, ease },
-      }
-
-  const liftCard = mobile
-    ? {}
-    : {
-        whileHover: {
-          y: -12,
-          scale: 1.02,
-          transition: { type: 'spring' as const, stiffness: 300, damping: 20 },
-        },
-      }
-
-  const heroAnim = mobile
-    ? {}
-    : { initial: { opacity: 0, y: 30 } as const, animate: { opacity: 1, y: 0 } as const }
-
   return (
     <>
-      {/* WebGL sphere — always rendered, static on mobile */}
+      {/* WebGL sphere — hidden on mobile via component-level check */}
       <QuantumBackground />
 
-      {/* Warm ambient glow orb — desktop only */}
+      {/* Warm ambient glow orb — CSS only, hidden on mobile */}
       <div className="pointer-events-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#D4AF37]/10 blur-[150px] rounded-full -z-[5] hidden md:block" />
 
       <div className="relative min-h-screen">
-        {/* Animated circuit data lines — fewer on mobile */}
+        {/* Circuit data lines — no-op on mobile via component-level check */}
         <DataLines />
 
         {/* ── Hero ── */}
         <section className="flex min-h-[100svh] flex-col items-center justify-center px-4 pt-24 sm:pt-28 pb-16 sm:pb-20">
           <motion.h1
             className={`${heading.className} shimmer-text max-w-4xl text-center text-3xl sm:text-5xl font-bold leading-tight tracking-widest md:text-7xl md:leading-tight uppercase`}
-            {...heroAnim}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease }}
           >
             MOVING SOUTH AFRICA FORWARD
           </motion.h1>
           <motion.p
             className="mt-4 sm:mt-6 max-w-xl text-center text-base sm:text-lg text-[#8a8580] px-2"
-            {...(mobile ? {} : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })}
-            transition={{ duration: 0.8, delay: mobile ? 0 : 0.15, ease }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease }}
           >
             Premium dispatch and route visibility for high-value commodities.
           </motion.p>
 
           <motion.div
             className="mt-8 sm:mt-10 flex gap-6 sm:gap-10 text-center text-xs sm:text-sm text-[#8a8580]"
-            {...(mobile ? {} : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })}
-            transition={{ duration: 0.8, delay: mobile ? 0 : 0.3, ease }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease }}
           >
             <div>
               <p className="text-2xl sm:text-3xl font-semibold text-[#e8e4e0]">10+</p>
@@ -98,8 +88,9 @@ export default function Page() {
 
           <motion.div
             className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0"
-            {...(mobile ? {} : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })}
-            transition={{ duration: 0.8, delay: mobile ? 0 : 0.45, ease }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.45, ease }}
           >
             <a
               href="#track"
@@ -239,7 +230,7 @@ export default function Page() {
                   key={svc.title}
                   className={`${card} group p-6 sm:p-8`}
                   {...fadeUp}
-                  {...(!mobile && i > 0 ? { transition: { ...fadeUp.transition, delay: i * 0.1 } } : {})}
+                  {...(i > 0 ? { transition: { ...fadeUp.transition, delay: i * 0.1 } } : {})}
                   {...liftCard}
                 >
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#D4AF37]/10">
@@ -288,7 +279,7 @@ export default function Page() {
                     key={item.title}
                     className={`${card} p-6 sm:p-8`}
                     {...fadeUp}
-                    {...(!mobile && i > 0 ? { transition: { ...fadeUp.transition, delay: i * 0.1 } } : {})}
+                    {...(i > 0 ? { transition: { ...fadeUp.transition, delay: i * 0.1 } } : {})}
                     {...liftCard}
                   >
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#D4AF37]/10">
