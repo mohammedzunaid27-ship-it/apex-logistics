@@ -113,7 +113,9 @@ export default function Page() {
           <div className="mx-auto max-w-3xl">
             <motion.div
               className={`${card} p-6 sm:p-10 border-[#D4AF37]/20 relative overflow-hidden`}
-              {...fadeUp}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease }}
               {...liftCard}
             >
               {/* Gold accent bar */}
