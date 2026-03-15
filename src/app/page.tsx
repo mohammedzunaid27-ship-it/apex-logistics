@@ -46,7 +46,7 @@ export default function Page() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease }}
           >
-            MOVING SOUTH AFRICA FORWARD.
+            MOVING SOUTH AFRICA FORWARD
           </motion.h1>
           <motion.p
             className="mt-6 max-w-xl text-center text-lg text-[#8a8580]"
