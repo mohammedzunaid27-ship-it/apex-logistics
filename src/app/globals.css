@@ -228,6 +228,13 @@ p {
   border-width: 0 1px 1px 0;
 }
 
+/* Shown only if a photo could not be fetched at build time */
+.steel-placeholder {
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 14px),
+    linear-gradient(160deg, #1a1d20 0%, #0e1012 60%, #15120f 100%);
+}
+
 /* ── Hot seam line that runs under section headings ── */
 .seam {
   height: 1px;

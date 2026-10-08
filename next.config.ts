@@ -15,8 +15,7 @@ const securityHeaders = [
       `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
       "style-src 'self' 'unsafe-inline'",
       "font-src 'self' data:",
-      // product photos come from the Unsplash CDN
-      "img-src 'self' data: blob: https://images.unsplash.com https://unsplash.com",
+      "img-src 'self' data: blob:",
       "connect-src 'self'",
       "worker-src 'self' blob:",
       "frame-ancestors 'none'",

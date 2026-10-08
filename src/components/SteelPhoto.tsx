@@ -1,5 +1,30 @@
+import Image from 'next/image'
+import { existsSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { photos, type PhotoKey } from '@/lib/content'
-import { WIDTHS, cdnUrl, fallbackUrl, resolveUnsplash } from '@/lib/unsplash'
+
+// Photos are served from this site. Order of preference:
+//   1. public/photos/<key>.(jpg|jpeg|webp|png), committed by hand
+//   2. public/stock-cache/<key>.jpg, downloaded at build by scripts/fetch-photos.mjs
+//   3. a plain steel panel, so a missing photo never shows a broken image
+// Pages are static, so this runs once at build time.
+
+const root = process.cwd()
+
+const manifest: Record<string, { file: string; alt: string }> = (() => {
+  try {
+    return JSON.parse(readFileSync(join(root, 'public', 'stock-cache', 'manifest.json'), 'utf8'))
+  } catch {
+    return {}
+  }
+})()
+
+function override(key: PhotoKey) {
+  for (const ext of ['jpg', 'jpeg', 'webp', 'png']) {
+    if (existsSync(join(root, 'public', 'photos', `${key}.${ext}`))) return `/photos/${key}.${ext}`
+  }
+  return null
+}
 
 interface Props {
   photo: PhotoKey
@@ -8,24 +33,15 @@ interface Props {
   priority?: boolean
 }
 
-export async function SteelPhoto({ photo, sizes, className = '', priority = false }: Props) {
-  const { id, alt } = photos[photo]
-  const base = await resolveUnsplash(id)
-  const url = (w: number) => (base ? cdnUrl(base, w) : fallbackUrl(id, w))
+export function SteelPhoto({ photo, sizes, className = '', priority = false }: Props) {
+  const own = override(photo)
+  const cached = manifest[photo]
+  const src = own ?? cached?.file
+  const alt = own ? photos[photo].alt : (cached?.alt ?? photos[photo].alt)
 
-  return (
-    // Plain img: the Unsplash CDN already serves resized AVIF/WebP, so routing
-    // through next/image would only add a second optimisation pass.
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={url(1440)}
-      srcSet={WIDTHS.map((w) => `${url(w)} ${w}w`).join(', ')}
-      sizes={sizes}
-      alt={alt}
-      loading={priority ? 'eager' : 'lazy'}
-      fetchPriority={priority ? 'high' : 'auto'}
-      decoding="async"
-      className={`h-full w-full object-cover ${className}`}
-    />
-  )
+  if (!src) {
+    return <div aria-hidden className={`steel-placeholder absolute inset-0 ${className}`} />
+  }
+
+  return <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className={`object-cover ${className}`} />
 }

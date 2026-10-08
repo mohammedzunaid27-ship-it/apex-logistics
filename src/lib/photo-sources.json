@@ -1,0 +1,73 @@
+{
+  "_note": "Stock photos (Pexels and Unsplash licences, free for commercial use). scripts/fetch-photos.mjs downloads the first source that works for each key at build time and serves it from this site. To use your own photo instead, add public/photos/<key>.jpg.",
+  "weldSparks": [
+    {
+      "url": "https://images.pexels.com/photos/7461112/pexels-photo-7461112.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "alt": "Worker cutting steel with an angle grinder, sparks flying"
+    },
+    {
+      "url": "https://unsplash.com/photos/FQynd63cHeQ/download?force=true&w=2000",
+      "alt": "Welder joining steel with sparks spraying from the arc"
+    }
+  ],
+  "weldMask": [
+    {
+      "url": "https://images.pexels.com/photos/2381463/pexels-photo-2381463.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "alt": "Welder fabricating metal indoors with bright sparks"
+    },
+    {
+      "url": "https://unsplash.com/photos/dni5FT1QXvk/download?force=true&w=2000",
+      "alt": "Fabricator in a respirator welding a steel component"
+    }
+  ],
+  "weldDark": [
+    {
+      "url": "https://images.pexels.com/photos/11673107/pexels-photo-11673107.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "alt": "Close-up of a welder at work with sparks"
+    },
+    {
+      "url": "https://unsplash.com/photos/d9Xff2E37ak/download?force=true&w=2000",
+      "alt": "Welder working on a metal part in a dark workshop"
+    }
+  ],
+  "weldSite": [
+    {
+      "url": "https://images.pexels.com/photos/13944023/pexels-photo-13944023.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "alt": "Two workers in safety gear welding steel on a construction site"
+    },
+    {
+      "url": "https://unsplash.com/photos/jcm9Qo8O7kw/download?force=true&w=2000",
+      "alt": "Welder on a construction site with sparks against the evening sky"
+    }
+  ],
+  "girders": [
+    {
+      "url": "https://images.pexels.com/photos/53176/pexels-photo-53176.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "alt": "Steel girder framework"
+    },
+    {
+      "url": "https://unsplash.com/photos/j4FjddHQTDE/download?force=true&w=2000",
+      "alt": "Steel girder framework of a large industrial structure"
+    }
+  ],
+  "pipes": [
+    {
+      "url": "https://unsplash.com/photos/IMe9ChGGUq8/download?force=true&w=2000",
+      "alt": "Stack of steel pipes seen end on"
+    },
+    {
+      "url": "https://images.pexels.com/photos/15059760/pexels-photo-15059760.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "alt": "Worker welding a steel beam in a factory"
+    }
+  ],
+  "pipesPile": [
+    {
+      "url": "https://unsplash.com/photos/LT-oz1yj0_0/download?force=true&w=2000",
+      "alt": "Pile of metal tube lengths in a stockyard"
+    },
+    {
+      "url": "https://images.pexels.com/photos/17051952/pexels-photo-17051952.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "alt": "Welder working on steel structures in a workshop"
+    }
+  ]
+}

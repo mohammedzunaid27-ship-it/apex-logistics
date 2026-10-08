@@ -12,15 +12,16 @@ export type PhotoKey =
   | 'pipesPile'
   | 'girders'
 
-// Unsplash photo ids (free Unsplash License). Swap for yard photos when available.
-export const photos: Record<PhotoKey, { id: string; alt: string }> = {
-  weldSparks: { id: 'FQynd63cHeQ', alt: 'Welder joining steel with sparks spraying from the arc' },
-  weldDark: { id: 'd9Xff2E37ak', alt: 'Welder working on a metal part in a dark workshop' },
-  weldMask: { id: 'dni5FT1QXvk', alt: 'Fabricator in a respirator welding a steel component' },
-  weldSite: { id: 'jcm9Qo8O7kw', alt: 'Welder on a construction site with sparks against the evening sky' },
-  pipes: { id: 'IMe9ChGGUq8', alt: 'Stack of steel pipes seen end on' },
-  pipesPile: { id: 'LT-oz1yj0_0', alt: 'Pile of metal tube lengths in a stockyard' },
-  girders: { id: 'j4FjddHQTDE', alt: 'Steel girder framework of a large industrial structure' },
+// Default alt text per photo slot. Where each photo comes from is listed in
+// photo-sources.json; drop a file in public/photos/<key>.jpg to use your own.
+export const photos: Record<PhotoKey, { alt: string }> = {
+  weldSparks: { alt: 'Steel being cut with sparks flying' },
+  weldDark: { alt: 'Welder working on a metal part' },
+  weldMask: { alt: 'Fabricator welding a steel component' },
+  weldSite: { alt: 'Welders working on steel on a construction site' },
+  pipes: { alt: 'Stack of steel pipes seen end on' },
+  pipesPile: { alt: 'Metal tube lengths in a stockyard' },
+  girders: { alt: 'Steel girder framework' },
 }
 
 export interface Product {

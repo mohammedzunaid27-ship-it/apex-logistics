@@ -36,7 +36,9 @@ Append `?slowmo=25` to any URL in development to play the intro animation 25× s
 
 ## Photos
 
-Product and workshop photos are loaded from Unsplash (free Unsplash License) by id, listed in `src/lib/content.ts`. Replace them with photographs of the yard and stock when available: real photos help both customers and search rankings.
+Stock photos (Pexels and Unsplash, both free for commercial use) are listed in `src/lib/photo-sources.json`. Before every build, `scripts/fetch-photos.mjs` downloads the first working source for each slot into `public/stock-cache/`, and the site serves them from its own domain through Next.js image optimisation. If no source works, that slot shows a plain steel panel instead of a broken image. Check the Vercel build log for `[photos]` lines to see what was fetched.
+
+To use your own photo, add it as `public/photos/<slot>.jpg` (slots: `weldSparks`, `weldMask`, `weldDark`, `weldSite`, `girders`, `pipes`, `pipesPile`). Real photos of the yard and stock are better for customers and for search.
 
 ## After launch
 

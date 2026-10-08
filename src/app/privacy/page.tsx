@@ -96,10 +96,6 @@ const sections: LegalSection[] = [
           It stores one small value in your browser&apos;s session storage to remember that the opening animation
           has played, so it does not repeat on every page. It is deleted when you close the browser tab.
         </p>
-        <p>
-          Photographs on this site are loaded from the Unsplash image service (images.unsplash.com), so your browser
-          connects to Unsplash to fetch them and Unsplash receives your IP address in the process.
-        </p>
       </>
     ),
   },

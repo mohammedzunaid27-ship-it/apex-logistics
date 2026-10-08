@@ -111,7 +111,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
-        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="" />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
       </head>
       <body>

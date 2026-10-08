@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# stock photos downloaded at build time (scripts/fetch-photos.mjs)
+/public/stock-cache
