@@ -54,7 +54,7 @@ export default function ContactPage() {
                     <span>
                       <span className="label block">WhatsApp</span>
                       <span className="mt-2 block font-display text-4xl font-extrabold leading-none transition-colors group-hover:text-[#25d366]">
-                        {site.phones[0].display}
+                        {site.whatsapp.display}
                       </span>
                     </span>
                     <WhatsAppIcon size={20} className="text-[#25d366]" />

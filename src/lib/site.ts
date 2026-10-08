@@ -20,7 +20,7 @@ export const site = {
     { display: '061 545 6926', tel: '+27615456926' },
     { display: '071 490 7858', tel: '+27714907858' },
   ],
-  whatsapp: '27615456926',
+  whatsapp: { display: '061 545 6126', number: '27615456126' },
   address: {
     locality: 'Johannesburg',
     region: 'Gauteng',
@@ -52,7 +52,7 @@ export const site = {
 export const primaryPhone = site.phones[0]
 
 export function whatsappLink(message = 'Hi Apex Metals, I would like a quote.') {
-  return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`
+  return `https://wa.me/${site.whatsapp.number}?text=${encodeURIComponent(message)}`
 }
 
 export function absoluteUrl(path = '/') {
