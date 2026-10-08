@@ -26,14 +26,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!p) return {}
   return pageMeta({
     title: `${p.name} Supplier in Johannesburg`,
-    description: `${p.short} Cut to size and delivered across Gauteng by ${site.name}, ${site.address.locality}.`,
+    description: `${p.short} Cut to size and delivered nationwide from ${site.address.locality}.`,
     path: `/products/${p.slug}`,
     keywords: p.keywords,
     ownImage: true,
   })
 }
 
-const relevantServices = ['cutting', 'folding', 'delivery']
+const relevantServices = ['cutting', 'lengths', 'delivery']
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params
@@ -65,7 +65,7 @@ export default async function ProductPage({ params }: Props) {
               <h1 className="mt-5">
                 <span className="display-xl block">{p.name}</span>
                 <span className="mt-4 block font-body text-xl font-normal normal-case tracking-normal text-muted md:text-2xl">
-                  Supplier in {site.address.locality}, cut to size and delivered
+                  Supplier in {site.address.locality}. Cut to size, delivered nationwide.
                 </span>
               </h1>
             </div>
@@ -75,9 +75,9 @@ export default async function ProductPage({ params }: Props) {
           </div>
           <div className="mt-12 grid gap-10 md:grid-cols-12">
             <p className="text-lg leading-relaxed text-muted md:col-span-6 md:text-xl">{p.intro}</p>
-            <div className="flex flex-col gap-3 sm:flex-row md:col-span-5 md:col-start-8 md:flex-col md:items-stretch">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap md:col-span-5 md:col-start-8 md:flex-col md:items-stretch">
               <Link href={`/contact?product=${encodeURIComponent(p.name)}#quote`} className="btn btn-molten">
-                Quote for {p.name.toLowerCase()} <ArrowRight />
+                Request a quote <ArrowRight />
               </Link>
               <a href={`tel:${site.phones[0].tel}`} className="btn btn-line">
                 Call {site.phones[0].display}
@@ -102,11 +102,11 @@ export default async function ProductPage({ params }: Props) {
           <div className="grid gap-12 md:grid-cols-12">
             <div className="md:col-span-4" data-reveal>
               <div className="seam" />
-              <h2 className="display-md mt-6">What we usually stock</h2>
-              <p className="mt-5 text-muted">{p.lengths}</p>
+              <h2 className="display-md mt-6">What we stock</h2>
+              <p className="mt-5 text-muted">{p.supply}</p>
               <p className="mt-4 text-sm text-faint">
-                Sizes change with deliveries from our suppliers. Send your list and we confirm exactly what is
-                available before you pay.
+                Sizes and grades on the floor change with every delivery. Send your list and we confirm exactly what
+                is available before you pay.
               </p>
             </div>
             <div className="md:col-span-7 md:col-start-6" data-reveal>
@@ -114,19 +114,23 @@ export default async function ProductPage({ params }: Props) {
                 <caption className="sr-only">
                   {p.name} stocked by {site.name}
                 </caption>
-                <thead>
+                <thead className="hidden sm:table-header-group">
                   <tr className="border-b border-line-strong">
                     <th scope="col" className="label py-4 pr-6 font-normal">Product</th>
-                    <th scope="col" className="label py-4 font-normal">Typical range</th>
+                    <th scope="col" className="label py-4 font-normal">Notes</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="border-t border-line-strong sm:border-t-0">
+                  {/* rows stack on phones so long names never squeeze the notes */}
                   {p.items.map((item) => (
-                    <tr key={item.name} className="border-b border-line">
-                      <th scope="row" className="py-5 pr-6 align-top font-display text-xl font-extrabold uppercase leading-tight md:text-2xl">
+                    <tr key={item.name} className="block border-b border-line py-4 sm:table-row sm:py-0">
+                      <th
+                        scope="row"
+                        className="block align-top font-display text-2xl font-extrabold uppercase leading-tight sm:table-cell sm:w-1/2 sm:py-5 sm:pr-6"
+                      >
                         {item.name}
                       </th>
-                      <td className="py-5 align-top text-muted">{item.spec}</td>
+                      <td className="mt-1 block align-top text-muted sm:mt-0 sm:table-cell sm:py-5">{item.spec}</td>
                     </tr>
                   ))}
                 </tbody>

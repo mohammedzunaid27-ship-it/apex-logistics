@@ -6,7 +6,7 @@ import { LegalPage, type LegalSection } from '@/components/LegalPage'
 
 export const metadata: Metadata = pageMeta({
   title: 'Terms & Conditions',
-  description: `Terms and conditions for quotes, orders, cutting, delivery and returns when buying steel from ${site.name}, ${site.address.locality}.`,
+  description: `Terms and conditions for quotes, orders, cutting, delivery and returns when buying metal from ${site.name}, ${site.address.locality}.`,
   path: '/terms',
 })
 
@@ -44,7 +44,7 @@ const sections: LegalSection[] = [
     title: 'Quotes',
     body: (
       <p>
-        Steel prices move with the market, so a quote is valid for 7 days unless it says otherwise, and is subject to
+        Metal prices move with the market, so a quote is valid for 7 days unless it says otherwise, and is subject to
         stock being available when you order. Quotes are based on the sizes and quantities you give us. If we make
         an obvious pricing or typing error we may correct it before the order is confirmed.
       </p>
@@ -83,29 +83,29 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          Steel is supplied within the manufacturer&apos;s standard tolerances for dimensions, weight, straightness
+          Metal is supplied within the manufacturer&apos;s standard tolerances for dimensions, weight, straightness
           and flatness. Where we sell by weight, we may use the published theoretical mass of the section.
         </p>
         <p>
-          Light surface rust and mill scale on uncoated (black) steel is normal and is not a defect. Saw-cut and
-          guillotined edges may have burrs.
+          Light surface rust and mill scale on uncoated (black) steel is normal and is not a defect. Cut edges may
+          have burrs.
         </p>
       </>
     ),
   },
   {
     id: 'cutting',
-    title: 'Cutting and folding',
+    title: 'Cutting to size',
     body: (
       <p>
-        Items we cut, guillotine or fold are made to your instructions. They cannot be returned unless they do not
+        Items we cut to size are made to your instructions. They cannot be returned unless they do not
         match the dimensions you gave us. Offcuts belong to you unless you ask us to keep them.
       </p>
     ),
   },
   {
     id: 'suitability',
-    title: 'Choosing the right steel',
+    title: 'Choosing the right material',
     body: (
       <p>
         We are happy to tell you what is available and what is commonly used, but we do not provide engineering
@@ -124,7 +124,7 @@ const sections: LegalSection[] = [
           other events outside our control.
         </p>
         <p>
-          You must give our vehicle safe access to the delivery point and arrange offloading, including a crane or
+          You must give the delivery vehicle safe access to the delivery point and arrange offloading, including a crane or
           enough people for heavy items, unless we have agreed otherwise. Someone must be on site to receive and sign
           for the goods. We may charge for waiting time or a second trip if a delivery cannot be completed for these
           reasons.
@@ -158,7 +158,7 @@ const sections: LegalSection[] = [
     body: (
       <p>
         Uncut stock items in resaleable condition may be returned within 7 days by arrangement, and a handling fee
-        may apply. Cut, folded or specially ordered items cannot be returned unless they are defective or not what
+        may apply. Cut or specially ordered items cannot be returned unless they are defective or not what
         you ordered. This does not affect your rights under the Consumer Protection Act, including the right to
         return defective goods within six months.
       </p>
@@ -224,7 +224,7 @@ export default function TermsPage() {
       updated="8 October 2026"
       intro={
         <p>
-          The terms below cover buying steel from {site.name}: quotes, orders, cutting, delivery and returns. They
+          The terms below cover buying metal from {site.name}: quotes, orders, cutting, delivery and returns. They
           are written in plain language.
         </p>
       }

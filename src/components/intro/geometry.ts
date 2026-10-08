@@ -62,7 +62,7 @@ export const metalsBlock = {
   word: 'METALS',
   textX: 215,
   textWidth: 390,
-  stamp: `20 YRS IN STEEL`,
+  stamp: `20 YRS IN METAL`,
   stampX: RIGHT - 22,
   stampAnchor: 'end' as const,
   shadowCx: (RIGHT + SEAM_X) / 2,

@@ -55,18 +55,36 @@ export default function DataLines() {
       return Math.round(v / GRID) * GRID
     }
 
-    function sizeCanvas(cvs: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-      const dpr = window.devicePixelRatio || 1
-      cvs.width = window.innerWidth * dpr
-      cvs.height = document.documentElement.scrollHeight * dpr
-      cvs.style.width = `${window.innerWidth}px`
-      cvs.style.height = `${document.documentElement.scrollHeight}px`
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    // The static layer spans the whole page, so its resolution is capped to
+    // stay well under mobile Safari's ~16.7M pixel canvas limit.
+    const MAX_CANVAS_AREA = 12_000_000
+    let animDpr = 1
+
+    function sizeStatic() {
+      const w = window.innerWidth
+      const h = document.documentElement.scrollHeight
+      const dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(MAX_CANVAS_AREA / (w * h)))
+      staticCanvas!.width = Math.floor(w * dpr)
+      staticCanvas!.height = Math.floor(h * dpr)
+      staticCanvas!.style.width = `${w}px`
+      staticCanvas!.style.height = `${h}px`
+      staticCtx!.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+
+    // The animated layer only ever covers the viewport and is drawn offset by
+    // the scroll position, so each frame clears one screen, not the whole page.
+    function sizeAnim() {
+      if (!animCtx || !animCanvas) return
+      animDpr = Math.min(window.devicePixelRatio || 1, 2)
+      animCanvas.width = Math.floor(window.innerWidth * animDpr)
+      animCanvas.height = Math.floor(window.innerHeight * animDpr)
+      animCanvas.style.width = `${window.innerWidth}px`
+      animCanvas.style.height = `${window.innerHeight}px`
     }
 
     function resize() {
-      sizeCanvas(staticCanvas!, staticCtx!)
-      if (animCtx && animCanvas) sizeCanvas(animCanvas, animCtx)
+      sizeStatic()
+      sizeAnim()
       buildCircuit()
       drawStatic()
     }
@@ -226,10 +244,10 @@ export default function DataLines() {
       lastTime = time
 
       const w = window.innerWidth
-      const h = document.documentElement.scrollHeight
-      animCtx.clearRect(0, 0, w, h)
-
       const scrollY = window.scrollY
+      animCtx.setTransform(animDpr, 0, 0, animDpr, 0, -scrollY * animDpr)
+      animCtx.clearRect(0, scrollY, w, window.innerHeight)
+
       const cx = w / 2
       const cy = scrollY + window.innerHeight / 2
 
@@ -354,8 +372,10 @@ export default function DataLines() {
       resizeTimer = window.setTimeout(resize, 150)
     })
     ro.observe(document.body)
+    window.addEventListener('resize', sizeAnim)
 
     return () => {
+      window.removeEventListener('resize', sizeAnim)
       ro.disconnect()
       window.clearTimeout(resizeTimer)
       cancelAnimationFrame(animId)
@@ -373,7 +393,7 @@ export default function DataLines() {
       {/* Animated layer: travelers + glow, desktop only */}
       <canvas
         ref={animRef}
-        className="pointer-events-none absolute inset-0 -z-[7] hidden md:block"
+        className="pointer-events-none fixed inset-0 -z-[7] hidden md:block"
         aria-hidden="true"
       />
     </>

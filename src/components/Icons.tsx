@@ -68,10 +68,27 @@ const profiles: Record<ProfileKey, React.ReactNode> = {
       <path d="M20 29H28" strokeWidth={1} />
     </>
   ),
-  mesh: (
+  hollow: (
     <>
-      <path d="M8 12H40M8 20H40M8 28H40M8 36H40" />
-      <path d="M12 8V40M20 8V40M28 8V40M36 8V40" />
+      <circle cx="24" cy="24" r="15" />
+      <circle cx="24" cy="24" r="8" />
+      <path d="M24 4V9M24 39V44M4 24H9M39 24H44" strokeWidth={1} />
+    </>
+  ),
+  pipe: (
+    <>
+      <ellipse cx="13" cy="24" rx="5" ry="11" />
+      <ellipse cx="13" cy="24" rx="2.5" ry="7" />
+      <path d="M13 13H37M13 35H37" />
+      <path d="M37 13A5 11 0 0 1 37 35" />
+    </>
+  ),
+  wear: (
+    <>
+      <path d="M6 28L24 19L42 28L24 37Z" />
+      <path d="M6 28V33L24 42L42 33V28M24 37V42" />
+      <path d="M15 28L24 23.5L33 28L24 32.5Z" strokeWidth={1} />
+      <path d="M24 6V15M20 11L24 15L28 11" strokeWidth={1} />
     </>
   ),
 }
@@ -92,14 +109,6 @@ const serviceIcons: Record<ServiceIconKey, React.ReactNode> = {
     <>
       <path d={sawTeeth} />
       <circle cx="24" cy="24" r="3.5" />
-    </>
-  ),
-  fold: (
-    <>
-      <path d="M6 36H26L38 14" />
-      <path d="M6 40H28L41 16" strokeWidth={1} />
-      <path d="M33 33A10 10 0 0 0 36 25" strokeWidth={1} />
-      <path d="M33.5 26.5L36 25L37.5 27.5" strokeWidth={1} />
     </>
   ),
   truck: (

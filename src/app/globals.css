@@ -44,6 +44,8 @@
 html {
   background: var(--base);
   scroll-padding-top: 96px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 html,
@@ -92,6 +94,7 @@ h4 {
   letter-spacing: -0.005em;
   font-variation-settings: 'opsz' 72;
   text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 p {
@@ -112,17 +115,17 @@ p {
 }
 
 .display-xl {
-  font-size: clamp(3.4rem, 11vw, 10.5rem);
+  font-size: clamp(2.9rem, 11vw, 10.5rem);
   line-height: 0.9;
 }
 
 .display-lg {
-  font-size: clamp(2.6rem, 7vw, 6rem);
+  font-size: clamp(2.35rem, 7vw, 6rem);
   line-height: 0.88;
 }
 
 .display-md {
-  font-size: clamp(2rem, 4.6vw, 3.75rem);
+  font-size: clamp(1.9rem, 4.6vw, 3.75rem);
   line-height: 0.92;
 }
 
@@ -144,6 +147,7 @@ p {
   font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  text-align: center;
   transition:
     background-color 0.25s var(--ease-out),
     color 0.25s var(--ease-out),
@@ -153,6 +157,13 @@ p {
 
 .btn:active {
   transform: translateY(1px);
+}
+
+/* keep labels on one line once there is room; tiny phones may wrap */
+@media (min-width: 640px) {
+  .btn {
+    white-space: nowrap;
+  }
 }
 
 .btn-molten {
@@ -246,7 +257,8 @@ details[open] .faq-plus {
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid var(--line-strong);
   color: var(--fg);
-  font-size: 0.9375rem;
+  /* 16px minimum: smaller inputs make iOS Safari zoom the page on focus */
+  font-size: 1rem;
   outline: none;
   border-radius: 0;
   transition: border-color 0.2s, background-color 0.2s;

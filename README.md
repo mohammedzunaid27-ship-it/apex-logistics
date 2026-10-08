@@ -1,6 +1,6 @@
 # Apex Metals
 
-Website for Apex Metals, a steel merchant in Johannesburg. Built with Next.js 16 (App Router), Tailwind CSS 4 and React Three Fiber.
+Website for Apex Metals, a ferrous and non-ferrous metal merchant in Johannesburg. Built with Next.js 16 (App Router), Tailwind CSS 4 and React Three Fiber.
 
 ## Run it
 
@@ -18,7 +18,7 @@ Append `?slowmo=25` to any URL in development to play the intro animation 25× s
 | What | File |
 | --- | --- |
 | Phone numbers, email, WhatsApp, service areas, years in trade | `src/lib/site.ts` |
-| Products, sizes, services, FAQs, photo choices | `src/lib/content.ts` |
+| Product ranges and grades, services, FAQs, photo choices | `src/lib/content.ts` |
 | Structured data for Google (LocalBusiness, FAQ, breadcrumbs) | `src/lib/schema.ts` |
 | Intro animation (steel blocks slamming together) | `src/components/intro/` |
 | Background sphere and circuit lines | `src/components/QuantumBackground.tsx`, `src/components/DataLines.tsx` |

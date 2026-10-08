@@ -6,7 +6,7 @@ import { PageHero, ProductRows, QuoteBand, Container } from '@/components/ui'
 
 export const metadata: Metadata = pageMeta({
   title: 'Steel & Metal Products in Johannesburg',
-  description: `Structural steel, sheet, plate, tube, bar, stainless, aluminium, rebar and mesh from ${site.name}, ${site.address.locality}. Cut to size and delivered.`,
+  description: `Mild and stainless steel, aluminium, copper, brass, bronze, cast iron, EN steels, Hardox and schedule pipe from ${site.name}, ${site.address.locality}. Cut to size.`,
   path: '/products',
 })
 
@@ -19,8 +19,8 @@ export default function ProductsPage() {
         title="Steel and metal products"
         intro={
           <p>
-            Everything a builder, fabricator or engineering shop needs from a steel merchant, kept in common sizes
-            in our {site.address.locality} yard. Pick a range for the sizes we usually carry.
+            Ferrous and non-ferrous metals for engineering shops, fabricators, mines and plants, kept in common sizes
+            in {site.address.locality} and delivered nationwide. Open a range for the products and grades we carry.
           </p>
         }
       />

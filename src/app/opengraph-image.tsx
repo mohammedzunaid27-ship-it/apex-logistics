@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 import { brandFonts, gridBackground, Mark } from '@/lib/brandImage'
 import { site } from '@/lib/site'
 
-export const alt = `${site.name}: steel supply, cutting and delivery in ${site.address.locality}`
+export const alt = `${site.name}: steel and metal supply in ${site.address.locality}, cut to size and delivered nationwide`
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -24,7 +24,7 @@ export default async function OpengraphImage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Mark width={120} />
           <div style={{ display: 'flex', fontFamily: 'Martian Mono', fontSize: 20, letterSpacing: 4, color: '#959ea6' }}>
-            {`${site.yearsInTrade} YEARS IN STEEL`}
+            {`${site.yearsInTrade} YEARS IN METAL`}
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -43,7 +43,7 @@ export default async function OpengraphImage() {
               color: '#b8c1c9',
             }}
           >
-            STEEL SUPPLY · CUTTING · DELIVERY · JOHANNESBURG
+            STEEL &amp; METAL · CUT TO SIZE · DELIVERED NATIONWIDE
           </div>
         </div>
       </div>

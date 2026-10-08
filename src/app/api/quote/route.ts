@@ -21,7 +21,7 @@ function rateLimit(ip: string): boolean {
   return true
 }
 
-const LIMITS = { name: 120, phone: 40, email: 160, company: 160, product: 80, area: 120, message: 3000 }
+const LIMITS = { enquiry: 40, name: 120, phone: 40, email: 160, company: 160, product: 80, area: 120, message: 3000 }
 type Field = keyof typeof LIMITS
 
 const escapeHtml = (s: string) =>
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
       from: process.env.QUOTE_FROM_EMAIL ?? 'Apex Metals website <onboarding@resend.dev>',
       to: [process.env.QUOTE_TO_EMAIL ?? site.email],
       reply_to: data.email || undefined,
-      subject: `Quote request: ${data.name}${data.company ? ` (${data.company})` : ''}`,
+      subject: `${data.enquiry || 'Website'} enquiry: ${data.name}${data.company ? ` (${data.company})` : ''}`,
       html: `<table>${rows}</table><p style="white-space:pre-wrap">${escapeHtml(data.message)}</p>`,
     }),
     signal: AbortSignal.timeout(8000),

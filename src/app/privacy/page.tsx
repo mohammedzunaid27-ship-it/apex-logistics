@@ -23,7 +23,7 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          {site.name} (&ldquo;we&rdquo;, &ldquo;us&rdquo;) is a steel merchant based in {site.address.locality},{' '}
+          {site.name} (&ldquo;we&rdquo;, &ldquo;us&rdquo;) is a metal merchant based in {site.address.locality},{' '}
           {site.address.countryName}. We are the responsible party for the personal information described in this
           policy.
         </p>

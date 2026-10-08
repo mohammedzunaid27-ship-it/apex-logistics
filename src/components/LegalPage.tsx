@@ -1,4 +1,5 @@
 import { Container, Breadcrumbs } from './ui'
+import { PlusIcon } from './Icons'
 
 export interface LegalSection {
   id: string
@@ -26,14 +27,31 @@ export function LegalPage({
         <h1 className="display-lg mt-10">{title}</h1>
         <p className="label mt-6">Last updated {updated}</p>
 
-        <div className="mt-14 grid gap-12 lg:grid-cols-12">
-          <nav aria-label="On this page" className="lg:col-span-3">
-            <div className="lg:sticky lg:top-28">
+        <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-12">
+          {/* Phones: a collapsed contents list so the policy text starts on screen */}
+          <details className="group border-y border-line lg:hidden">
+            <summary className="label flex min-h-[48px] items-center justify-between text-fg">
+              On this page
+              <PlusIcon size={14} className="faq-plus transition-transform duration-300" />
+            </summary>
+            <ol className="pb-4 text-sm text-muted">
+              {sections.map((s, i) => (
+                <li key={s.id}>
+                  <a href={`#${s.id}`} className="block py-2.5 hover:text-fg">
+                    {i + 1}. {s.title}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </details>
+
+          <nav aria-label="On this page" className="hidden lg:col-span-3 lg:block">
+            <div className="sticky top-28">
               <p className="label mb-4 text-fg">On this page</p>
-              <ol className="space-y-2 border-l border-line text-sm text-muted">
+              <ol className="border-l border-line text-sm text-muted">
                 {sections.map((s, i) => (
                   <li key={s.id}>
-                    <a href={`#${s.id}`} className="-ml-px block border-l border-transparent py-0.5 pl-4 hover:border-molten hover:text-fg">
+                    <a href={`#${s.id}`} className="-ml-px block border-l border-transparent py-1 pl-4 hover:border-molten hover:text-fg">
                       {i + 1}. {s.title}
                     </a>
                   </li>

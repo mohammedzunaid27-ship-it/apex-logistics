@@ -498,7 +498,7 @@ export function IntroImpact() {
 
         <canvas ref={canvasRef} className="pointer-events-none absolute inset-0" />
 
-        <p className="intro-caption label">Steel supply · Cutting · Delivery · Johannesburg</p>
+        <p className="intro-caption label">Steel &amp; metal · Cut to size · Delivered nationwide</p>
       </div>
 
       <div ref={flashRef} className="intro-flash" />

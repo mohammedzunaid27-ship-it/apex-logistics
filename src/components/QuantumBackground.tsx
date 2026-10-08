@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useSyncExternalStore } from 'react'
+import { useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { Mesh } from 'three'
@@ -62,26 +62,8 @@ function SteelSphere() {
   )
 }
 
-// No WebGL on phones or for people who asked for less motion.
-const motionQuery = '(prefers-reduced-motion: reduce)'
-
-function subscribe(onChange: () => void) {
-  const mq = window.matchMedia(motionQuery)
-  window.addEventListener('resize', onChange)
-  mq.addEventListener('change', onChange)
-  return () => {
-    window.removeEventListener('resize', onChange)
-    mq.removeEventListener('change', onChange)
-  }
-}
-
-const canRender = () => window.innerWidth >= 768 && !window.matchMedia(motionQuery).matches
-
+// Only mounted by Backdrop on wide screens without reduced motion.
 export default function QuantumBackground() {
-  const enabled = useSyncExternalStore(subscribe, canRender, () => false)
-
-  if (!enabled) return null
-
   return (
     <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
       <Canvas

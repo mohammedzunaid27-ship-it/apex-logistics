@@ -63,21 +63,15 @@ export function localBusinessSchema() {
       latitude: site.geo.latitude,
       longitude: site.geo.longitude,
     },
-    areaServed: site.serviceAreas.map((name) => ({ '@type': 'City', name })),
-    knowsAbout: [
-      'Structural steel',
-      'Steel sheet and plate',
-      'Steel tube and pipe',
-      'Steel bar',
-      'Stainless steel',
-      'Aluminium',
-      'Reinforcing steel',
-      'Steel cutting',
+    areaServed: [
+      { '@type': 'Country', name: site.address.countryName },
+      ...site.serviceAreas.map((name) => ({ '@type': 'City', name })),
     ],
+    knowsAbout: products.map((p) => p.name).concat(['Metal cutting to size', 'Hardox wear plate', 'EN19', 'EN24']),
     slogan: site.tagline,
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Steel and metal products',
+      name: 'Ferrous and non-ferrous metals',
       itemListElement: products.map((p) => ({
         '@type': 'OfferCatalog',
         name: p.name,
@@ -124,12 +118,12 @@ export function productCategorySchema(p: Product) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: `${p.name} supply in ${site.address.locality}`,
+    name: `${p.name} supplier in ${site.address.locality}`,
     serviceType: p.name,
     description: p.intro,
     url: absoluteUrl(`/products/${p.slug}`),
     provider: { '@id': businessId },
-    areaServed: site.serviceAreas.map((name) => ({ '@type': 'City', name })),
+    areaServed: { '@type': 'Country', name: site.address.countryName },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: p.name,

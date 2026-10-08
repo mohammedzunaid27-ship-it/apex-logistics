@@ -10,7 +10,7 @@ import { MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from '@/components/Icons'
 import { Container, Faq, PageHero } from '@/components/ui'
 
 export const metadata: Metadata = pageMeta({
-  title: 'Contact & Steel Quotes',
+  title: 'Contact & Quotes',
   description: `Get a steel quote from ${site.name} in ${site.address.locality}. Call ${site.phones[0].display}, WhatsApp or email ${site.email} with your sizes and quantities.`,
   path: '/contact',
 })
@@ -22,11 +22,11 @@ export default function ContactPage() {
       <PageHero
         trail={[{ name: 'Contact', path: '/contact' }]}
         label="Quotes · Orders · Questions"
-        title="Get a steel quote"
+        title="Get a quote"
         intro={
           <p>
-            Send sizes, quantities and where it needs to go. The quickest way is WhatsApp or a call, and the form
-            below works just as well.
+            Quotations, prices, new orders or a delivery question. Send the material, sizes, quantities and where it
+            needs to go. WhatsApp or a call is quickest, and the form below works just as well.
           </p>
         }
       />
@@ -76,7 +76,7 @@ export default function ContactPage() {
                   <address className="mt-2 not-italic text-xl">
                     {site.address.locality}, {site.address.region}
                   </address>
-                  <p className="mt-2 text-sm text-muted">Delivering across {site.address.region}.</p>
+                  <p className="mt-2 text-sm text-muted">Delivering nationwide.</p>
                 </li>
               </ul>
             </aside>

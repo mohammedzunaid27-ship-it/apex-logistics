@@ -2,17 +2,17 @@
 
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { products } from '@/lib/content'
+import { enquiryTypes, products } from '@/lib/content'
 import { site, whatsappLink } from '@/lib/site'
 import { ArrowRight, MailIcon, WhatsAppIcon } from './Icons'
 
 type Status = 'idle' | 'sending' | 'sent' | 'manual'
 
-const empty = { name: '', phone: '', email: '', company: '', product: '', area: '', message: '', website: '' }
+const empty = { enquiry: enquiryTypes[0], name: '', phone: '', email: '', company: '', product: '', area: '', message: '', website: '' }
 
 function compose(f: typeof empty) {
   const header = [
-    `Quote request from ${f.name}`,
+    `${f.enquiry} enquiry from ${f.name}`,
     f.company && `Company: ${f.company}`,
     `Phone: ${f.phone}`,
     f.email && `Email: ${f.email}`,
@@ -82,7 +82,7 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
         <p className="label text-molten">Received</p>
         <h3 className="display-md mt-4">Thanks, {sentCopy.name.split(' ')[0]}.</h3>
         <p className="mt-4 max-w-md text-muted">
-          Your list is with us. We will come back to you on {sentCopy.phone}
+          Your {sentCopy.enquiry.toLowerCase()} enquiry is with us. We will come back to you on {sentCopy.phone}
           {sentCopy.email ? ` or ${sentCopy.email}` : ''} with a price.
         </p>
         <button type="button" onClick={() => setStatus('idle')} className="btn btn-line mt-8">
@@ -123,7 +123,30 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
   const labelCls = 'label mb-2 block'
 
   return (
-    <form onSubmit={submit} noValidate className="panel ticks grid gap-5 p-6 sm:grid-cols-2 md:p-10">
+    <form onSubmit={submit} noValidate className="panel ticks grid gap-5 p-5 sm:grid-cols-2 sm:p-6 md:p-10">
+      <fieldset className="sm:col-span-2">
+        <legend className={labelCls}>Enquiry</legend>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {enquiryTypes.map((t) => (
+            <label
+              key={t}
+              className={`flex min-h-[48px] cursor-pointer items-center justify-center border px-3 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-molten text-center font-mono text-[0.6875rem] uppercase tracking-[0.12em] transition-colors ${
+                form.enquiry === t ? 'border-molten bg-molten/10 text-fg' : 'border-line-strong text-muted hover:border-fg'
+              }`}
+            >
+              <input
+                type="radio"
+                name="enquiry"
+                value={t}
+                checked={form.enquiry === t}
+                onChange={update}
+                className="sr-only"
+              />
+              {t}
+            </label>
+          ))}
+        </div>
+      </fieldset>
       <div>
         <label htmlFor="q-name" className={labelCls}>
           Name <span className="text-molten">*</span>
@@ -170,7 +193,7 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
         <input
           id="q-area"
           name="area"
-          placeholder="Suburb, or collect"
+          placeholder="Town or suburb"
           value={form.area}
           onChange={update}
           className="field"
@@ -178,14 +201,14 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
       </div>
       <div className="sm:col-span-2">
         <label htmlFor="q-message" className={labelCls}>
-          Sizes and quantities <span className="text-molten">*</span>
+          Material, sizes and quantities <span className="text-molten">*</span>
         </label>
         <textarea
           id="q-message"
           name="message"
           rows={5}
           required
-          placeholder={'e.g. 6 × 50×50×3 square tube, cut to 2.4 m\n2 sheets 3 mm chequer plate'}
+          placeholder={'e.g. 4 × EN19 Ø50 mm, cut to 300 mm\n2 sheets 3 mm aluminium treadplate'}
           value={form.message}
           onChange={update}
           className="field resize-y"

@@ -15,7 +15,13 @@ export default async function ProductOgImage({ params }: { params: Promise<{ slu
   const { slug } = await params
   const p = getProduct(slug)
   const name = p?.name ?? 'Steel'
-  const items = p ? p.items.slice(0, 4).map((i) => i.name.toUpperCase()).join(' · ') : ''
+  // as many item names as fit on one line
+  let items = ''
+  for (const i of p?.items ?? []) {
+    const next = items ? `${items} · ${i.name.toUpperCase()}` : i.name.toUpperCase()
+    if (next.length > 72) break
+    items = next
+  }
 
   return new ImageResponse(
     (
@@ -41,7 +47,7 @@ export default async function ProductOgImage({ params }: { params: Promise<{ slu
           <div style={{ display: 'flex', fontFamily: 'Martian Mono', fontSize: 20, letterSpacing: 4, color: '#ff6a1f' }}>
             {`SUPPLIER IN ${site.address.locality.toUpperCase()}`}
           </div>
-          <div style={{ display: 'flex', fontFamily: 'Big Shoulders', fontSize: 150, lineHeight: 0.9, marginTop: 16 }}>
+          <div style={{ display: 'flex', fontFamily: 'Big Shoulders', fontSize: name.length > 12 ? 112 : 150, lineHeight: 0.9, marginTop: 16 }}>
             {name.toUpperCase()}
           </div>
           <div style={{ display: 'flex', marginTop: 28, fontFamily: 'Martian Mono', fontSize: 18, letterSpacing: 2, color: '#b8c1c9' }}>

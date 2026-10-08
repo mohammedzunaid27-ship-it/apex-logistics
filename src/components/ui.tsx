@@ -48,7 +48,7 @@ export function Breadcrumbs({ trail }: { trail: { name: string; path: string }[]
             <li key={c.path} className="flex items-center gap-2">
               {i > 0 && <span className="text-faint">/</span>}
               {i < all.length - 1 ? (
-                <Link href={c.path} className="hover:text-fg">
+                <Link href={c.path} className="inline-flex min-h-[40px] min-w-[40px] items-center hover:text-fg">
                   {c.name}
                 </Link>
               ) : (
@@ -101,24 +101,24 @@ export function ProductRows({ items = products }: { items?: Product[] }) {
           <li key={p.slug} className="border-b border-line" data-reveal>
             <Link
               href={`/products/${p.slug}`}
-              className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-x-5 gap-y-3 py-7 transition-colors hover:bg-white/[0.02] md:grid-cols-12 md:gap-x-8 md:py-9"
+              className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-x-5 gap-y-3 py-6 transition-colors sm:py-7 hover:bg-white/[0.02] lg:grid-cols-12 lg:gap-x-8 lg:py-9"
             >
-              <span className="label hidden md:col-span-1 md:block">0{n}</span>
+              <span className="label hidden lg:col-span-1 lg:block">0{n}</span>
               <ProfileIcon
                 name={p.profile}
                 size={52}
-                className="text-steel transition-colors duration-300 group-hover:text-molten md:col-span-1"
+                className="text-steel transition-colors duration-300 group-hover:text-molten lg:col-span-1"
               />
-              <div className="md:col-span-4">
-                <h3 className="font-display text-3xl font-extrabold uppercase leading-none md:text-[2.75rem]">
+              <div className="lg:col-span-4">
+                <h3 className="font-display text-3xl font-extrabold uppercase leading-none lg:text-[2.75rem]">
                   {p.name}
                 </h3>
               </div>
-              <span className="flex h-11 w-11 items-center justify-center border border-line-strong transition-colors group-hover:border-molten group-hover:bg-molten group-hover:text-base md:order-last md:col-span-1 md:justify-self-end">
+              <span className="flex h-11 w-11 items-center justify-center border border-line-strong transition-colors group-hover:border-molten group-hover:bg-molten group-hover:text-base lg:order-last lg:col-span-1 lg:justify-self-end">
                 <ArrowUpRight />
               </span>
-              <p className="col-span-3 text-sm text-muted md:col-span-3">{p.short}</p>
-              <p className="label col-span-3 hidden md:col-span-2 md:block">
+              <p className="col-span-3 text-sm text-muted sm:pl-[72px] lg:col-span-3 lg:pl-0">{p.short}</p>
+              <p className="label col-span-3 hidden lg:col-span-2 lg:block">
                 {p.items
                   .slice(0, 3)
                   .map((i) => i.name)
@@ -155,9 +155,9 @@ export function QuoteBand({ title = 'Send us your cutting list' }: { title?: str
   return (
     <section className="py-20 md:py-28">
       <Container>
-        <div className="panel ticks relative overflow-hidden px-6 py-14 md:px-14 md:py-20" data-reveal>
-          <div className="grid gap-10 md:grid-cols-12 md:items-end">
-            <div className="md:col-span-7">
+        <div className="panel ticks relative overflow-hidden px-5 py-12 sm:px-8 md:px-14 md:py-20" data-reveal>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7">
               <p className="label text-molten">Phone, WhatsApp or email</p>
               <h2 className="display-lg mt-5">{title}</h2>
               <p className="mt-6 max-w-xl text-muted">
@@ -165,14 +165,14 @@ export function QuoteBand({ title = 'Send us your cutting list' }: { title?: str
                 written price.
               </p>
             </div>
-            <div className="grid gap-3 md:col-span-4 md:col-start-9">
-              <Link href="/contact#quote" className="btn btn-molten w-full">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:col-span-4 lg:col-start-9 lg:flex-col">
+              <Link href="/contact#quote" className="btn btn-molten w-full sm:w-auto lg:w-full">
                 Request a quote <ArrowRight />
               </Link>
-              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-line w-full">
+              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-line w-full sm:w-auto lg:w-full">
                 <WhatsAppIcon size={16} className="text-[#25d366]" /> Send it on WhatsApp
               </a>
-              <a href={`tel:${primaryPhone.tel}`} className="btn btn-line w-full">
+              <a href={`tel:${primaryPhone.tel}`} className="btn btn-line w-full sm:w-auto lg:w-full">
                 <PhoneIcon size={14} /> {primaryPhone.display}
               </a>
             </div>
