@@ -39,7 +39,8 @@ export default function DataLines() {
     const staticCtx = staticCanvas.getContext('2d')
     if (!staticCtx) return
 
-    const isMobile = window.innerWidth < 768
+    const isMobile =
+      window.innerWidth < 768 || window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const animCtx = !isMobile && animCanvas ? animCanvas.getContext('2d') : null
 
     let animId: number
@@ -47,7 +48,7 @@ export default function DataLines() {
     let travelers: Traveler[] = []
     let lastTime = 0
 
-    const GRID = 45
+    const GRID = 48
     const SPHERE_RADIUS = 190
 
     function snap(v: number) {
@@ -182,16 +183,14 @@ export default function DataLines() {
           staticCtx!.moveTo(points[i].x, points[i].y)
           staticCtx!.lineTo(points[i + 1].x, points[i + 1].y)
         }
-        staticCtx!.strokeStyle = 'rgba(160, 130, 40, 0.14)'
+        staticCtx!.strokeStyle = 'rgba(150, 162, 172, 0.11)'
         staticCtx!.lineWidth = 1
         staticCtx!.stroke()
 
-        // Junction dots
+        // Junctions drawn as square weld points rather than dots
+        staticCtx!.fillStyle = 'rgba(170, 182, 192, 0.2)'
         for (const pt of points) {
-          staticCtx!.beginPath()
-          staticCtx!.arc(pt.x, pt.y, 1.8, 0, Math.PI * 2)
-          staticCtx!.fillStyle = 'rgba(180, 150, 50, 0.2)'
-          staticCtx!.fill()
+          staticCtx!.fillRect(pt.x - 1.5, pt.y - 1.5, 3, 3)
         }
       }
     }
@@ -275,7 +274,7 @@ export default function DataLines() {
             animCtx.beginPath()
             animCtx.moveTo(p1.x, p1.y)
             animCtx.lineTo(p2.x, p2.y)
-            animCtx.strokeStyle = `rgba(212, 175, 55, ${0.15 * hotGlow * dim})`
+            animCtx.strokeStyle = `rgba(255, 106, 31, ${0.18 * hotGlow * dim})`
             animCtx.lineWidth = 5
             animCtx.stroke()
 
@@ -283,7 +282,7 @@ export default function DataLines() {
             animCtx.beginPath()
             animCtx.moveTo(p1.x, p1.y)
             animCtx.lineTo(p2.x, p2.y)
-            animCtx.strokeStyle = `rgba(243, 229, 171, ${0.35 * hotGlow * dim})`
+            animCtx.strokeStyle = `rgba(255, 196, 150, ${0.4 * hotGlow * dim})`
             animCtx.lineWidth = 1.5
             animCtx.stroke()
           }
@@ -297,8 +296,8 @@ export default function DataLines() {
               const dd = Math.sqrt((pt.x - cx) ** 2 + (pt.y - cy) ** 2)
               const dim = dd < SPHERE_RADIUS ? Math.pow(dd / SPHERE_RADIUS, 2) * 0.25 : 1
               const jGrad = animCtx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 7)
-              jGrad.addColorStop(0, `rgba(243, 229, 171, ${0.5 * dim})`)
-              jGrad.addColorStop(1, 'rgba(212, 175, 55, 0)')
+              jGrad.addColorStop(0, `rgba(255, 210, 170, ${0.5 * dim})`)
+              jGrad.addColorStop(1, 'rgba(255, 106, 31, 0)')
               animCtx.beginPath()
               animCtx.arc(pt.x, pt.y, 7, 0, Math.PI * 2)
               animCtx.fillStyle = jGrad
@@ -317,9 +316,9 @@ export default function DataLines() {
         if (dim < 0.02) continue
 
         const grad = animCtx.createRadialGradient(tp.pos.x, tp.pos.y, 0, tp.pos.x, tp.pos.y, 30)
-        grad.addColorStop(0, `rgba(212, 175, 55, ${0.3 * dim})`)
-        grad.addColorStop(0.4, `rgba(212, 175, 55, ${0.08 * dim})`)
-        grad.addColorStop(1, 'rgba(212, 175, 55, 0)')
+        grad.addColorStop(0, `rgba(255, 106, 31, ${0.32 * dim})`)
+        grad.addColorStop(0.4, `rgba(255, 106, 31, ${0.08 * dim})`)
+        grad.addColorStop(1, 'rgba(255, 106, 31, 0)')
         animCtx.beginPath()
         animCtx.arc(tp.pos.x, tp.pos.y, 30, 0, Math.PI * 2)
         animCtx.fillStyle = grad
@@ -327,7 +326,7 @@ export default function DataLines() {
 
         animCtx.beginPath()
         animCtx.arc(tp.pos.x, tp.pos.y, 2.5, 0, Math.PI * 2)
-        animCtx.fillStyle = `rgba(255, 240, 190, ${0.9 * dim})`
+        animCtx.fillStyle = `rgba(255, 238, 220, ${0.9 * dim})`
         animCtx.fill()
       }
 
@@ -341,9 +340,24 @@ export default function DataLines() {
       animId = requestAnimationFrame(drawAnimated)
     }
 
-    window.addEventListener('resize', resize)
+    // Rebuild when the page grows or shrinks (route changes, images loading)
+    let lastH = document.documentElement.scrollHeight
+    let lastW = window.innerWidth
+    let resizeTimer: number | undefined
+    const ro = new ResizeObserver(() => {
+      const h = document.documentElement.scrollHeight
+      const w = window.innerWidth
+      if (Math.abs(h - lastH) < 40 && w === lastW) return
+      lastH = h
+      lastW = w
+      window.clearTimeout(resizeTimer)
+      resizeTimer = window.setTimeout(resize, 150)
+    })
+    ro.observe(document.body)
+
     return () => {
-      window.removeEventListener('resize', resize)
+      ro.disconnect()
+      window.clearTimeout(resizeTimer)
       cancelAnimationFrame(animId)
     }
   }, [])

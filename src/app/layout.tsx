@@ -1,18 +1,38 @@
 import type { Metadata, Viewport } from 'next'
-import { Space_Grotesk, Inter } from 'next/font/google'
+import { Big_Shoulders, Familjen_Grotesk, Martian_Mono } from 'next/font/google'
 import './globals.css'
-import { ClientProviders } from '@/components/ClientProviders'
+import { site } from '@/lib/site'
+import { organizationSchema, websiteSchema } from '@/lib/schema'
+import { JsonLd } from '@/components/JsonLd'
+import { Navbar } from '@/components/Navbar'
+import { Footer } from '@/components/Footer'
+import { WhatsAppButton } from '@/components/WhatsAppButton'
+import { SmoothScroll } from '@/components/SmoothScroll'
+import { RevealObserver } from '@/components/RevealObserver'
+import { Backdrop } from '@/components/Backdrop'
+import { IntroImpact } from '@/components/intro/IntroImpact'
 
-const headingFont = Space_Grotesk({
-  weight: ['400', '600', '700'],
+// Big Shoulders: a condensed industrial grotesque cut from Chicago's
+// steel-town signage. Familjen Grotesk for reading, Martian Mono for specs.
+const display = Big_Shoulders({
   subsets: ['latin'],
-  variable: '--font-heading-var',
+  axes: ['opsz'],
+  variable: '--font-display-var',
+  display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Arial Narrow', 'sans-serif'],
+})
+
+const body = Familjen_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-body-var',
   display: 'swap',
 })
 
-const bodyFont = Inter({
+const mono = Martian_Mono({
   subsets: ['latin'],
-  variable: '--font-body-var',
+  axes: ['wdth'],
+  variable: '--font-mono-var',
   display: 'swap',
 })
 
@@ -20,37 +40,39 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#0a0a0a',
+  themeColor: '#0a0b0c',
+  colorScheme: 'dark',
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://apex-logistics.vercel.app'),
+  metadataBase: new URL(site.url),
   title: {
-    default: 'Apex Logistics | Premium Freight & Commodities Delivery in South Africa',
-    template: '%s | Apex Logistics',
+    default: 'Steel Supplier in Johannesburg | Apex Metals',
+    template: '%s | Apex Metals',
   },
-  description:
-    'South Africa\'s premium freight and logistics provider. AI-powered route optimisation, real-time telematics, and 99.2% on-time delivery. Track your APX shipment instantly. Furniture, wholesale, and commodities transport nationwide.',
+  description: site.description,
+  applicationName: site.name,
   keywords: [
-    'logistics South Africa',
-    'freight Johannesburg',
-    'commodity transport South Africa',
-    'furniture delivery Johannesburg',
-    'wholesale logistics Gauteng',
-    'APX tracking',
-    'road freight South Africa',
+    'steel supplier Johannesburg',
+    'steel merchant Johannesburg',
+    'structural steel Johannesburg',
+    'steel suppliers Gauteng',
+    'I-beams Johannesburg',
+    'steel tubing Johannesburg',
+    'sheet metal Johannesburg',
+    'chequer plate',
+    'flat bar',
+    'stainless steel Johannesburg',
+    'rebar Johannesburg',
+    'steel cut to size',
     'Apex Metals',
-    'heavy freight transport',
-    'AI logistics South Africa',
-    'metals transport Johannesburg',
-    'cargo delivery nationwide',
-    'freight company Gauteng',
-    'supply chain South Africa',
-    'shipment tracking South Africa',
   ],
-  authors: [{ name: 'Apex Logistics' }],
-  creator: 'Apex Logistics',
-  publisher: 'Apex Logistics',
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
+  category: 'business',
+  alternates: { canonical: '/' },
+  formatDetection: { telephone: true, email: true, address: false },
   robots: {
     index: true,
     follow: true,
@@ -63,111 +85,50 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Apex Logistics | Premium Freight & Commodities Delivery',
-    description:
-      'AI-powered logistics with 99.2% on-time delivery. Furniture, wholesale goods, and high-value commodities transport across South Africa. Track your APX shipment live.',
-    siteName: 'Apex Logistics',
-    locale: 'en_ZA',
     type: 'website',
-    url: 'https://apex-logistics.vercel.app',
+    locale: 'en_ZA',
+    url: '/',
+    siteName: site.name,
+    title: 'Apex Metals | Steel supply, cutting and delivery in Johannesburg',
+    description: site.description,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Apex Logistics | Premium Freight & Commodities Delivery',
-    description:
-      'AI-powered logistics across South Africa. 10+ years, 2,500+ deliveries, 99.2% success rate. Track your shipment live.',
-  },
-  alternates: {
-    canonical: 'https://apex-logistics.vercel.app',
-  },
-  category: 'logistics',
-}
-
-const localBusinessSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  name: 'Apex Logistics',
-  description:
-    'Premium nationwide freight and commodities delivery powered by AI route optimisation. A subsidiary of Apex Metals.',
-  telephone: ['+27615456926', '+27714907858'],
-  email: 'ApexLogistics@gmail.com',
-  url: 'https://apex-logistics.vercel.app',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Johannesburg',
-    addressRegion: 'Gauteng',
-    addressCountry: 'ZA',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: -26.2041,
-    longitude: 28.0473,
-  },
-  areaServed: {
-    '@type': 'Country',
-    name: 'South Africa',
-  },
-  serviceType: [
-    'Furniture Transport',
-    'Wholesale Delivery',
-    'Commodities Transport',
-    'Metals Haulage',
-    'General Road Freight',
-  ],
-  priceRange: '$$',
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.9',
-    reviewCount: '127',
+    title: 'Apex Metals | Steel supply in Johannesburg',
+    description: site.description,
   },
 }
 
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Apex Logistics',
-  url: 'https://apex-logistics.vercel.app',
-  parentOrganization: {
-    '@type': 'Organization',
-    name: 'Apex Metals',
-  },
-  contactPoint: [
-    {
-      '@type': 'ContactPoint',
-      telephone: '+27615456926',
-      contactType: 'customer service',
-      areaServed: 'ZA',
-      availableLanguage: ['English', 'Afrikaans'],
-    },
-    {
-      '@type': 'ContactPoint',
-      telephone: '+27714907858',
-      contactType: 'customer service',
-      areaServed: 'ZA',
-      availableLanguage: ['English', 'Afrikaans'],
-    },
-  ],
-}
+// Runs before first paint: marks JS as available and decides whether the
+// intro plays (once per browser session) so the overlay never flashes.
+const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{if(!sessionStorage.getItem('apex-intro-seen')){d.classList.add('intro-play');window.__introFailsafe=setTimeout(function(){d.classList.remove('intro-play')},7000)}}catch(e){}})();`
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-ZA" className={`${headingFont.variable} ${bodyFont.variable}`}>
+    <html
+      lang="en-ZA"
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="" />
+        <JsonLd data={[organizationSchema(), websiteSchema()]} />
       </head>
-      <body className="antialiased">
-        <ClientProviders>{children}</ClientProviders>
+      <body>
+        <a href="#main" className="skip-link label">
+          Skip to content
+        </a>
+        <IntroImpact />
+        <div className="relative min-h-screen">
+          <Backdrop />
+          <Navbar />
+          <main id="main">{children}</main>
+          <Footer />
+        </div>
+        <WhatsAppButton />
+        <SmoothScroll />
+        <RevealObserver />
       </body>
     </html>
   )

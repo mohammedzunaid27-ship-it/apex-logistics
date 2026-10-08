@@ -1,19 +1,40 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-obsidian: #0a0a0a;
-  --color-obsidian-light: #111111;
-  --color-stone-light: #e8e4e0;
-  --color-ink: #0a0a0a;
-  --color-ink-muted: #4a4a4a;
-  --color-ink-faint: #8a8580;
-  --color-gold: #D4AF37;
-  --color-gold-light: #F3E5AB;
-  --color-warm-white: #f5f0e8;
-  --font-heading: var(--font-heading-var), 'Orbitron', system-ui, sans-serif;
-  --font-body: var(--font-body-var), 'Inter', system-ui, sans-serif;
+:root {
+  --base: #0a0b0c;
+  --raised: #111315;
+  --panel: rgba(12, 13, 15, 0.86);
+  --line: rgba(214, 222, 230, 0.09);
+  --line-strong: rgba(214, 222, 230, 0.2);
+  --fg: #e7eaed;
+  --muted: #959ea6;
+  --faint: #5f676e;
+  --steel: #b8c1c9;
+  --molten: #ff6a1f;
+  --molten-hot: #ffb27a;
+  --molten-deep: #b93a0a;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@theme inline {
+  --color-base: var(--base);
+  --color-raised: var(--raised);
+  --color-panel: var(--panel);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-steel: var(--steel);
+  --color-molten: var(--molten);
+  --color-molten-hot: var(--molten-hot);
+  --color-molten-deep: var(--molten-deep);
+  --font-display: var(--font-display-var), 'Arial Narrow', sans-serif;
+  --font-body: var(--font-body-var), system-ui, sans-serif;
+  --font-mono: var(--font-mono-var), ui-monospace, monospace;
+}
+
+@layer base {
 *,
 *::before,
 *::after {
@@ -21,114 +42,524 @@
 }
 
 html {
-  scroll-behavior: auto;
+  background: var(--base);
+  scroll-padding-top: 96px;
 }
 
+html,
 body {
-  background-color: #0a0a0a;
-  color: #e8e4e0;
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+/* No background on body: html carries it, so the fixed sphere and circuit
+   lines (negative z-index) are not painted over. */
+body {
+  color: var(--fg);
   font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
-  padding-bottom: env(safe-area-inset-bottom);
+  text-rendering: optimizeLegibility;
 }
 
-/* Prevent horizontal overflow on mobile */
-html, body {
-  max-width: 100vw;
-  overflow-x: hidden;
+/* Fine grain over everything so flat areas read as material, not screen. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Use svh for mobile viewport height */
-@supports (height: 100svh) {
-  .min-h-screen {
-    min-height: 100svh;
-  }
+::selection {
+  background: var(--molten);
+  color: #0a0b0c;
 }
 
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
+h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.005em;
+  font-variation-settings: 'opsz' 72;
+  text-wrap: balance;
 }
 
-/* ── Dark glass navbar ── */
-.glass-card {
-  background: rgba(10, 10, 10, 0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+p {
+  text-wrap: pretty;
 }
 
-/* ── Warm shimmer (champagne gold sweep) ── */
-@keyframes warm-shimmer {
-  0% {
-    background-position: -200% center;
-  }
-  100% {
-    background-position: 200% center;
-  }
 }
 
-.shimmer-text {
-  background: linear-gradient(
-    105deg,
-    #e8e4e0 0%,
-    #e8e4e0 35%,
-    #D4AF37 45%,
-    #F3E5AB 50%,
-    #D4AF37 55%,
-    #e8e4e0 65%,
-    #e8e4e0 100%
-  );
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: warm-shimmer 6s linear infinite;
+@layer components {
+/* ── Type helpers ── */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.display-xl {
+  font-size: clamp(3.4rem, 11vw, 10.5rem);
+  line-height: 0.9;
+}
+
+.display-lg {
+  font-size: clamp(2.6rem, 7vw, 6rem);
+  line-height: 0.88;
+}
+
+.display-md {
+  font-size: clamp(2rem, 4.6vw, 3.75rem);
+  line-height: 0.92;
+}
+
+/* Hollow outline lettering, like a stencil before it is sprayed. */
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line-strong);
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 52px;
+  padding: 0 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.25s var(--ease-out),
+    color 0.25s var(--ease-out),
+    border-color 0.25s var(--ease-out),
+    transform 0.25s var(--ease-out);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-molten {
+  background: var(--molten);
+  color: #0a0b0c;
+  font-weight: 500;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.btn-molten:hover {
+  background: var(--molten-hot);
+}
+
+.btn-line {
+  border: 1px solid var(--line-strong);
+  color: var(--fg);
+}
+
+.btn-line:hover {
+  border-color: var(--fg);
+}
+
+.btn svg {
+  transition: transform 0.3s var(--ease-out);
+}
+
+.btn:hover svg {
+  transform: translateX(3px);
+}
+
+/* ── Panels ── */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+/* Corner ticks, like registration marks on a cutting drawing. */
+.ticks {
+  position: relative;
+}
+
+.ticks::before,
+.ticks::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  border-color: var(--molten);
+  border-style: solid;
+}
+
+.ticks::before {
+  top: -1px;
+  left: -1px;
+  border-width: 1px 0 0 1px;
+}
+
+.ticks::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 1px 1px 0;
+}
+
+/* ── Hot seam line that runs under section headings ── */
+.seam {
+  height: 1px;
+  background: linear-gradient(90deg, var(--molten) 0, var(--molten) 48px, var(--line-strong) 48px, var(--line-strong) 100%);
+}
+
+/* ── FAQ ── */
+details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] .faq-plus {
+  transform: rotate(45deg);
+  color: var(--molten);
+}
+
+/* ── Forms ── */
+.field {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--line-strong);
+  color: var(--fg);
+  font-size: 0.9375rem;
+  outline: none;
+  border-radius: 0;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.field::placeholder {
+  color: var(--faint);
+}
+
+.field:focus {
+  border-color: var(--molten);
+  background: rgba(255, 106, 31, 0.04);
+}
+
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23959ea6' stroke-width='1.5'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+select.field option {
+  background: var(--raised);
+}
+
+/* ── Prose for legal pages ── */
+.prose-steel h2 {
+  font-size: 1.75rem;
+  margin: 3rem 0 1rem;
+}
+
+.prose-steel h3 {
+  font-size: 1.25rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.prose-steel p,
+.prose-steel li {
+  color: var(--muted);
+  font-size: 0.975rem;
+}
+
+.prose-steel p + p {
+  margin-top: 1rem;
+}
+
+.prose-steel ul {
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+  list-style: square;
+}
+
+.prose-steel li + li {
+  margin-top: 0.5rem;
+}
+
+.prose-steel li::marker {
+  color: var(--molten);
+}
+
+.prose-steel a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--molten);
+  text-underline-offset: 3px;
+}
+
+.prose-steel strong {
+  color: var(--fg);
+  font-weight: 500;
 }
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--base);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #2a2520;
-  border-radius: 3px;
+  background: #2a2e32;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a3530;
+  background: var(--molten-deep);
 }
 
-/* ── Performance-safe glass card ── */
-/* Mobile: solid dark bg, no blur (massive GPU saving) */
-/* Desktop: full glassmorphism with backdrop-blur */
-.glass-card-perf {
-  background: rgba(18, 18, 18, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+:focus-visible {
+  outline: 2px solid var(--molten);
+  outline-offset: 3px;
 }
 
-@media (min-width: 768px) {
-  .glass-card-perf {
-    background: rgba(18, 18, 18, 0.75);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 200;
+  padding: 0.75rem 1rem;
+  background: var(--molten);
+  color: #0a0b0c;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+}
+
+/* ── Scroll reveal ── */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Product ticker ── */
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
   }
 }
 
-/* ── Focus ring ── */
-:focus-visible {
-  outline: 2px solid #D4AF37;
-  outline-offset: 3px;
-  border-radius: 4px;
+.ticker-track {
+  animation: ticker 48s linear infinite;
+}
+
+/* ════════════════════════════════════════════
+   Intro: two steel blocks slam together
+   ════════════════════════════════════════════ */
+
+.intro {
+  display: none;
+}
+
+html.intro-play .intro {
+  display: block;
+}
+
+html.intro-play body {
+  overflow: hidden;
+}
+
+/* If the script never runs, get out of the way. */
+html.intro-play .intro {
+  animation: intro-failsafe 0.3s linear 6s forwards;
+}
+
+/* Once the script has taken over, it owns the timing. */
+html.intro-play.intro-running .intro {
+  animation: none;
+}
+
+@keyframes intro-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.intro-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.5%;
+  background: var(--base);
+  transition: transform 0.75s cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.intro-panel.top {
+  top: 0;
+  border-bottom: 1px solid transparent;
+}
+
+.intro-panel.bottom {
+  bottom: 0;
+}
+
+.intro.is-leaving .intro-panel.top {
+  transform: translateY(-101%);
+  border-bottom-color: var(--molten);
+}
+
+.intro.is-leaving .intro-panel.bottom {
+  transform: translateY(101%);
+}
+
+.intro-camera {
+  position: absolute;
+  inset: -48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transition: opacity 0.3s;
+}
+
+.intro.is-leaving .intro-camera {
+  opacity: 0;
+}
+
+.intro-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: center;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 100%);
+  opacity: 0.6;
+}
+
+.intro-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% + min(7.5vw, 75px) + 22px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong) 20%, var(--line-strong) 80%, transparent);
+}
+
+.intro-stage {
+  position: relative;
+  /* slightly wider than the screen on phones: the blocks themselves only
+     fill 88% of the stage, so they end up edge to edge */
+  width: min(104vw, 1040px);
+  aspect-ratio: 1040 / 320;
+}
+
+.intro-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.intro-layer svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.intro-zoom {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-zoom > div {
+  position: absolute;
+  inset: 0;
+  transform-origin: 44.2% 50%;
+}
+
+.intro-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% + min(7.5vw, 75px) + 52px);
+  padding: 0 calc(48px + 1.25rem);
+  text-align: center;
+  text-wrap: balance;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.5s var(--ease-out),
+    transform 0.5s var(--ease-out);
+}
+
+.intro.is-settled .intro-caption {
+  opacity: 1;
+  transform: none;
+}
+
+.intro-flash {
+  position: absolute;
+  inset: 0;
+  background: #fff3e6;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.intro-skip {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+
+  html.js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .intro-panel {
+    transition-duration: 0.01s;
+  }
 }

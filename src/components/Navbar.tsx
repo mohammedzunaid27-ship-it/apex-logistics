@@ -1,109 +1,127 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Phone, Menu, X } from 'lucide-react'
-import { heading } from '@/lib/fonts'
+import { usePathname } from 'next/navigation'
+import { CloseIcon, LogoMark, MenuIcon, PhoneIcon, WhatsAppIcon, ArrowRight } from './Icons'
+import { primaryPhone, site, whatsappLink } from '@/lib/site'
 
-const ease = [0.22, 1, 0.36, 1] as const
-
-const navLinks = [
-  { href: '/#services', label: 'Services' },
-  { href: '/#technology', label: 'Technology' },
-  { href: '/#track', label: 'Track' },
-  { href: '/#contact', label: 'Contact' },
+const links = [
+  { href: '/products', label: 'Products' },
+  { href: '/services', label: 'Services' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 export function Navbar() {
+  const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.style.overflow = open ? 'hidden' : ''
+  }, [open])
+
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
 
   return (
-    <motion.header
-      className="fixed top-0 left-0 right-0 z-50"
-      initial={{ opacity: 0, y: -16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease }}
-    >
-      {/* Desktop & mobile top bar */}
-      <nav className="mx-3 sm:mx-4 mt-3 sm:mt-4 rounded-2xl px-4 sm:px-6 py-4 sm:py-5 grid grid-cols-[auto_1fr_auto] md:grid-cols-3 items-center bg-[#0e0e0e]/90 backdrop-blur-xl border border-white/[0.12] shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
-        {/* Left — hamburger on mobile, nav links on desktop */}
-        <div className="flex items-center">
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div
+        className={`border-b transition-colors duration-300 ${
+          scrolled || open ? 'border-line bg-base/90 backdrop-blur-md' : 'border-transparent bg-transparent'
+        }`}
+      >
+        <nav
+          aria-label="Main"
+          className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between gap-6 px-5 sm:px-8"
+        >
+          <Link href="/" className="group flex items-center gap-3" aria-label={`${site.name} home`} onClick={() => setOpen(false)}>
+            <LogoMark size={40} className="text-steel transition-colors group-hover:text-fg" />
+            <span className="font-display text-[1.65rem] font-extrabold uppercase leading-none tracking-[0.02em]">
+              Apex<span className="text-muted"> Metals</span>
+            </span>
+          </Link>
+
+          <ul className="hidden items-center gap-9 md:flex">
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  aria-current={isActive(l.href) ? 'page' : undefined}
+                  className={`label relative py-2 transition-colors hover:text-fg ${isActive(l.href) ? 'text-fg' : ''}`}
+                >
+                  {l.label}
+                  {isActive(l.href) && <span className="absolute inset-x-0 -bottom-px h-px bg-molten" />}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="hidden items-center gap-5 md:flex">
+            <a href={`tel:${primaryPhone.tel}`} className="label flex items-center gap-2 text-fg hover:text-molten">
+              <PhoneIcon size={14} />
+              {primaryPhone.display}
+            </a>
+            <Link href="/contact#quote" className="btn btn-molten !min-h-[42px] !px-4">
+              Get a quote
+            </Link>
+          </div>
+
           <button
-            onClick={() => setOpen(!open)}
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-[#8a8580] hover:text-[#e8e4e0] active:bg-white/5 transition-colors"
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className="flex h-11 w-11 items-center justify-center border border-line-strong md:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
           >
-            {open ? <X size={20} /> : <Menu size={20} />}
+            {open ? <CloseIcon size={18} /> : <MenuIcon size={18} />}
           </button>
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
+        </nav>
+      </div>
+
+      <div
+        id="mobile-menu"
+        data-lenis-prevent
+        className={`fixed inset-x-0 bottom-0 top-[72px] overflow-y-auto bg-base px-5 pb-10 pt-6 transition-[opacity,transform] duration-300 md:hidden ${
+          open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-3 opacity-0'
+        }`}
+      >
+        <ul className="border-t border-line">
+          {links.map((l, i) => (
+            <li key={l.href} className="border-b border-line">
               <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm text-[#8a8580] hover:text-[#D4AF37] transition-colors"
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="flex items-baseline justify-between py-5"
               >
-                {link.label}
+                <span className="font-display text-5xl font-extrabold uppercase leading-none">{l.label}</span>
+                <span className="label">0{i + 1}</span>
               </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Center — Logo */}
-        <Link href="/" className="flex flex-col items-center leading-none justify-self-center">
-          <span
-            className={`${heading.className} text-3xl sm:text-5xl md:text-6xl tracking-widest text-[#e8e4e0] font-bold`}
-          >
-            APEX
-          </span>
-          <span className={`${heading.className} mt-0.5 text-xs sm:text-lg md:text-xl tracking-[0.3em] text-[#D4AF37]/70 font-normal`}>
-            LOGISTICS
-          </span>
-        </Link>
-
-        {/* Right — Phone */}
-        <div className="flex justify-end">
-          <a
-            href="tel:0615456926"
-            className="flex items-center gap-2 bg-[#D4AF37] text-black text-sm font-semibold px-3 sm:px-4 py-2.5 rounded-xl hover:bg-[#F3E5AB] active:scale-[0.97] transition-all min-h-[44px] min-w-[44px] justify-center"
-          >
-            <Phone size={14} />
-            <span className="hidden sm:inline">061 545 6926</span>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-8 grid gap-3">
+          <Link href="/contact#quote" onClick={() => setOpen(false)} className="btn btn-molten w-full">
+            Get a quote <ArrowRight />
+          </Link>
+          {site.phones.map((p) => (
+            <a key={p.tel} href={`tel:${p.tel}`} className="btn btn-line w-full">
+              <PhoneIcon size={14} /> {p.display}
+            </a>
+          ))}
+          <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-line w-full">
+            <WhatsAppIcon size={16} className="text-[#25d366]" /> WhatsApp
           </a>
         </div>
-      </nav>
-
-      {/* Mobile dropdown menu */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="md:hidden mx-3 mt-2 rounded-2xl bg-[#0e0e0e]/95 backdrop-blur-xl border border-white/[0.12] shadow-[0_4px_30px_rgba(0,0,0,0.5)] overflow-hidden"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease }}
-          >
-            <div className="py-4 px-6 flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="block py-3 text-base text-[#8a8580] hover:text-[#D4AF37] transition-colors border-b border-white/5 last:border-0"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <a
-                href="tel:0714907858"
-                className="block py-3 text-base text-[#8a8580] hover:text-[#D4AF37] transition-colors"
-              >
-                071 490 7858
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+      </div>
+    </header>
   )
 }

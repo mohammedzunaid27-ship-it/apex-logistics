@@ -1,0 +1,142 @@
+import { faqs as homeFaqs, products, services, type Product } from './content'
+import { absoluteUrl, site } from './site'
+
+// schema.org structured data. Kept factual: no ratings, prices or opening
+// hours are published until the business confirms them.
+
+const businessId = `${site.url}/#business`
+const orgId = `${site.url}/#organization`
+
+export function organizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': orgId,
+    name: site.name,
+    url: site.url,
+    logo: absoluteUrl('/logo.png'),
+    email: site.email,
+    telephone: site.phones.map((p) => p.tel),
+    contactPoint: site.phones.map((p) => ({
+      '@type': 'ContactPoint',
+      telephone: p.tel,
+      contactType: 'sales',
+      areaServed: 'ZA',
+      availableLanguage: ['English', 'Afrikaans', 'Zulu'],
+    })),
+  }
+}
+
+export function websiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${site.url}/#website`,
+    name: site.name,
+    url: site.url,
+    inLanguage: 'en-ZA',
+    publisher: { '@id': orgId },
+  }
+}
+
+export function localBusinessSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': ['LocalBusiness', 'Store'],
+    '@id': businessId,
+    name: site.name,
+    description: site.description,
+    url: site.url,
+    image: absoluteUrl('/opengraph-image'),
+    logo: absoluteUrl('/logo.png'),
+    email: site.email,
+    telephone: site.phones[0].tel,
+    parentOrganization: { '@id': orgId },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: site.address.locality,
+      addressRegion: site.address.region,
+      addressCountry: site.address.country,
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: site.geo.latitude,
+      longitude: site.geo.longitude,
+    },
+    areaServed: site.serviceAreas.map((name) => ({ '@type': 'City', name })),
+    knowsAbout: [
+      'Structural steel',
+      'Steel sheet and plate',
+      'Steel tube and pipe',
+      'Steel bar',
+      'Stainless steel',
+      'Aluminium',
+      'Reinforcing steel',
+      'Steel cutting',
+    ],
+    slogan: site.tagline,
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Steel and metal products',
+      itemListElement: products.map((p) => ({
+        '@type': 'OfferCatalog',
+        name: p.name,
+        url: absoluteUrl(`/products/${p.slug}`),
+        itemListElement: p.items.map((item) => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Product', name: item.name, description: item.spec },
+        })),
+      })),
+    },
+    makesOffer: services.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.name, description: s.body },
+    })),
+  }
+}
+
+export function faqSchema(items: { q: string; a: string }[] = homeFaqs) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  }
+}
+
+export function breadcrumbSchema(trail: { name: string; path: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [{ name: 'Home', path: '/' }, ...trail].map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.name,
+      item: absoluteUrl(c.path),
+    })),
+  }
+}
+
+export function productCategorySchema(p: Product) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: `${p.name} supply in ${site.address.locality}`,
+    serviceType: p.name,
+    description: p.intro,
+    url: absoluteUrl(`/products/${p.slug}`),
+    provider: { '@id': businessId },
+    areaServed: site.serviceAreas.map((name) => ({ '@type': 'City', name })),
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: p.name,
+      itemListElement: p.items.map((item) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Product', name: item.name, description: item.spec },
+      })),
+    },
+  }
+}

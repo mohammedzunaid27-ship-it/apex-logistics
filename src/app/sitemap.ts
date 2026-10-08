@@ -1,26 +1,24 @@
 import type { MetadataRoute } from 'next'
+import { products } from '@/lib/content'
+import { absoluteUrl } from '@/lib/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://apex-logistics.vercel.app'
+  const lastModified = new Date()
+  const page = (path: string, priority: number, changeFrequency: 'weekly' | 'monthly' | 'yearly') => ({
+    url: absoluteUrl(path),
+    lastModified,
+    changeFrequency,
+    priority,
+  })
 
   return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.3,
-    },
+    page('/', 1, 'weekly'),
+    page('/products', 0.9, 'weekly'),
+    ...products.map((p) => page(`/products/${p.slug}`, 0.9, 'monthly')),
+    page('/services', 0.8, 'monthly'),
+    page('/contact', 0.8, 'monthly'),
+    page('/about', 0.6, 'monthly'),
+    page('/privacy', 0.2, 'yearly'),
+    page('/terms', 0.2, 'yearly'),
   ]
 }

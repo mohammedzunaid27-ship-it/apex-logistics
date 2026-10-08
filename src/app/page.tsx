@@ -1,351 +1,310 @@
-'use client'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { faqs, industries, process, reasons, services } from '@/lib/content'
+import { primaryPhone, site, whatsappLink } from '@/lib/site'
+import { faqSchema, localBusinessSchema } from '@/lib/schema'
+import { JsonLd } from '@/components/JsonLd'
+import { SteelPhoto } from '@/components/SteelPhoto'
+import { ArrowRight, PhoneIcon, ServiceIcon, WhatsAppIcon } from '@/components/Icons'
+import { Container, Faq, ProductRows, QuoteBand, SectionHead } from '@/components/ui'
 
-import dynamic from 'next/dynamic'
-import { motion } from 'framer-motion'
-import { Truck, Package, Shield, ArrowRight, Brain, Route, Lock, Gauge, Cpu, Satellite, ShieldCheck } from 'lucide-react'
-import { heading } from '@/lib/fonts'
-
-const QuantumBackground = dynamic(() => import('@/components/QuantumBackground'), {
-  ssr: false,
-})
-
-const DataLines = dynamic(() => import('@/components/DataLines'), {
-  ssr: false,
-})
-
-const ease = [0.22, 1, 0.36, 1] as const
-
-const card = 'glass-card-perf rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-shadow duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.4)]'
-
-const fadeUp = {
-  initial: { opacity: 0, y: 40 } as const,
-  whileInView: { opacity: 1, y: 0 } as const,
-  viewport: { once: true, margin: '-60px' } as const,
-  transition: { duration: 0.6, ease },
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
 }
 
-const liftCard = {
-  whileHover: {
-    y: -12,
-    scale: 1.02,
-    transition: { type: 'spring' as const, stiffness: 300, damping: 20 },
-  },
-}
+const tickerItems = [
+  'IPE beams',
+  'H-sections',
+  'PFC channel',
+  'Equal angle',
+  'Square tube',
+  'Round tube',
+  'Black pipe',
+  'Hot rolled sheet',
+  'Chequer plate',
+  'Mild steel plate',
+  'Flat bar',
+  'Round bar',
+  'Stainless 304 / 316',
+  'Aluminium',
+  'Rebar',
+  'Welded mesh',
+]
 
-export default function Page() {
+export default function HomePage() {
   return (
     <>
-      {/* WebGL sphere — hidden on mobile via component-level check */}
-      <QuantumBackground />
+      <JsonLd data={[localBusinessSchema(), faqSchema(faqs)]} />
 
-      {/* Warm ambient glow orb — CSS only, hidden on mobile */}
-      <div className="pointer-events-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#D4AF37]/10 blur-[150px] rounded-full -z-[5] hidden md:block" />
-
-      <div className="relative min-h-screen">
-        {/* Circuit data lines — no-op on mobile via component-level check */}
-        <DataLines />
-
-        {/* ── Hero ── */}
-        <section className="flex min-h-[100svh] flex-col items-center justify-center px-4 pt-24 sm:pt-28 pb-16 sm:pb-20">
-          <motion.h1
-            className={`${heading.className} shimmer-text max-w-4xl text-center text-3xl sm:text-5xl font-bold leading-tight tracking-widest md:text-7xl md:leading-tight uppercase`}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease }}
-          >
-            MOVING SOUTH AFRICA FORWARD
-          </motion.h1>
-          <motion.p
-            className="mt-4 sm:mt-6 max-w-xl text-center text-base sm:text-lg text-[#8a8580] px-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease }}
-          >
-            Premium dispatch and route visibility for high-value commodities.
-          </motion.p>
-
-          <motion.div
-            className="mt-8 sm:mt-10 flex gap-6 sm:gap-10 text-center text-xs sm:text-sm text-[#8a8580]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease }}
-          >
-            <div>
-              <p className="text-2xl sm:text-3xl font-semibold text-[#e8e4e0]">10+</p>
-              <p className="mt-1">Years Experience</p>
-            </div>
-            <div className="h-10 sm:h-12 w-px bg-[#D4AF37]/20" />
-            <div>
-              <p className="text-2xl sm:text-3xl font-semibold text-[#e8e4e0]">2,500+</p>
-              <p className="mt-1">Deliveries</p>
-            </div>
-            <div className="h-10 sm:h-12 w-px bg-[#D4AF37]/20" />
-            <div>
-              <p className="text-2xl sm:text-3xl font-semibold text-[#e8e4e0]">99.2%</p>
-              <p className="mt-1">Success Rate</p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45, ease }}
-          >
-            <a
-              href="#track"
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#D4AF37] px-8 py-4 text-sm font-semibold text-black transition hover:bg-[#F3E5AB]"
-            >
-              Track Shipment
-              <ArrowRight size={16} />
-            </a>
-            <a
-              href="#services"
-              className="rounded-xl border border-[#D4AF37]/25 px-8 py-4 text-sm font-medium text-[#e8e4e0] transition hover:border-[#D4AF37]/50 hover:bg-white/5 text-center"
-            >
-              Explore Services
-            </a>
-          </motion.div>
-        </section>
-
-        {/* ── Insurance & Goods Protection ── */}
-        <section id="insurance" className="px-4 py-16 sm:py-28">
-          <div className="mx-auto max-w-3xl">
-            <motion.div
-              className={`${card} p-6 sm:p-10 border-[#D4AF37]/20 relative overflow-hidden`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease }}
-              {...liftCard}
-            >
-              {/* Gold accent bar */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
-
-              <div className="flex items-start gap-4 sm:gap-6">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#D4AF37]/10 border border-[#D4AF37]/20">
-                  <ShieldCheck size={28} className="text-[#D4AF37]" />
-                </div>
-                <div>
-                  <p className="text-[10px] tracking-[0.3em] text-[#D4AF37] uppercase mb-1.5">
-                    Full Coverage Guarantee
-                  </p>
-                  <h2 className="text-xl sm:text-2xl font-semibold text-[#e8e4e0] md:text-3xl">
-                    Your Goods Are Insured
-                  </h2>
-                </div>
-              </div>
-
-              <p className="mt-5 text-sm leading-relaxed text-[#8a8580]">
-                Every shipment handled by Apex Logistics is covered by comprehensive transit insurance from the
-                moment we collect your goods to the point of delivery. Our policy covers loss, theft, accidental
-                damage, and fire while your cargo is in our custody.
-              </p>
-
-              <div className="mt-6 grid gap-4 sm:grid-cols-3">
-                <div className="rounded-xl bg-white/5 border border-white/5 p-4">
-                  <p className="text-lg font-semibold text-[#e8e4e0]">Door-to-Door</p>
-                  <p className="mt-1 text-xs text-[#8a8580]">Coverage from collection point to final delivery address</p>
-                </div>
-                <div className="rounded-xl bg-white/5 border border-white/5 p-4">
-                  <p className="text-lg font-semibold text-[#e8e4e0]">All-Risk</p>
-                  <p className="mt-1 text-xs text-[#8a8580]">Theft, damage, fire, accidents, and natural disasters covered</p>
-                </div>
-                <div className="rounded-xl bg-white/5 border border-white/5 p-4">
-                  <p className="text-lg font-semibold text-[#e8e4e0]">Fast Claims</p>
-                  <p className="mt-1 text-xs text-[#8a8580]">Claims processed within 7 business days with full documentation support</p>
-                </div>
-              </div>
-
-              <p className="mt-5 text-xs text-[#555] leading-relaxed">
-                Clients transporting high-value cargo (metals, machinery, electronics) may request enhanced
-                coverage. Contact our operations team for a tailored insurance quote. See our{' '}
-                <a href="/terms" className="text-[#D4AF37] underline underline-offset-2 hover:text-[#F3E5AB]">
-                  Terms of Service
-                </a>{' '}
-                for full liability details.
-              </p>
-            </motion.div>
+      {/* ── Hero ── */}
+      <section className="relative pb-14 pt-[112px] md:pb-20 md:pt-[150px]">
+        <Container>
+          <div className="flex items-center justify-between gap-6 border-b border-line pb-4">
+            <p className="label">
+              <span className="text-molten">●</span>&nbsp; Steel merchants · {site.address.locality}
+            </p>
+            <p className="label hidden sm:block">{site.yearsInTrade} years in the trade</p>
           </div>
-        </section>
 
-        {/* ── Tracking ── */}
-        <section id="track" className="px-4 py-16 sm:py-28">
-          <div className="mx-auto max-w-2xl">
-            <motion.div
-              className={`${card} p-6 sm:p-10`}
-              {...fadeUp}
-              {...liftCard}
-            >
-              <h2 className="text-center text-2xl sm:text-3xl text-[#e8e4e0] md:text-4xl">
-                Track Your Cargo
-              </h2>
-              <p className="mt-3 text-center text-sm text-[#8a8580]">
-                Enter your APX tracking code to view live milestone updates.
+          <h1 className="mt-8 md:mt-12">
+            <span className="sr-only">Steel supplier in Johannesburg: </span>
+            <span className="display-xl block">Steel,</span>
+            <span className="display-xl block">
+              cut to <span className="text-molten">size</span>
+            </span>
+            <span className="display-xl block text-steel">&amp; delivered.</span>
+          </h1>
+
+          <div className="mt-12 grid gap-12 md:mt-16 md:grid-cols-12">
+            <div className="md:col-span-5">
+              <p className="text-lg leading-relaxed text-muted md:text-xl">
+                Structural sections, sheet, plate, tube, bar and mesh from one {site.address.locality} yard. Send us
+                your cutting list and the steel arrives ready to weld, on our own trucks.
               </p>
-              <form
-                className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3"
-                action="/track"
-                method="GET"
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Link href="/contact#quote" className="btn btn-molten">
+                  Request a quote <ArrowRight />
+                </Link>
+                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-line">
+                  <WhatsAppIcon size={16} className="text-[#25d366]" /> WhatsApp
+                </a>
+              </div>
+              <a
+                href={`tel:${primaryPhone.tel}`}
+                className="label mt-6 inline-flex items-center gap-2 hover:text-fg"
               >
-                <input
-                  name="id"
-                  placeholder="APX-####"
-                  className="h-14 flex-1 rounded-xl border border-white/10 bg-white/5 px-5 text-lg text-[#e8e4e0] placeholder-[#555] outline-none transition focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
-                />
-                <button
-                  type="submit"
-                  className="h-14 rounded-xl bg-[#D4AF37] px-8 text-sm font-semibold text-black transition hover:bg-[#F3E5AB]"
-                >
-                  Track
-                </button>
-              </form>
-              <p className="mt-4 text-center text-xs text-[#555]">
-                e.g. APX-1001, APX-2048, APX-4096
-              </p>
-            </motion.div>
-          </div>
-        </section>
+                <PhoneIcon size={13} /> Or call {primaryPhone.display}
+              </a>
+            </div>
 
-        {/* ── Services ── */}
-        <section id="services" className="px-4 py-16 sm:py-28">
-          <div className="mx-auto max-w-5xl">
-            <motion.h2
-              className="text-center text-2xl sm:text-3xl text-[#e8e4e0] md:text-4xl"
-              {...fadeUp}
-            >
-              Our Services
-            </motion.h2>
-            <motion.p
-              className="mx-auto mt-3 sm:mt-4 max-w-lg text-center text-sm text-[#8a8580]"
-              {...fadeUp}
-            >
-              Nationwide logistics specialising in high-value and time-sensitive cargo.
-            </motion.p>
-
-            <div className="mt-8 sm:mt-14 grid gap-4 sm:gap-6 md:grid-cols-3">
-              {[
-                { Icon: Truck, title: 'Furniture Transport', desc: 'Secure handling and delivery of residential & commercial furniture nationwide.' },
-                { Icon: Package, title: 'Wholesale Delivery', desc: 'Bulk distribution for retail and wholesale clients across all provinces.' },
-                { Icon: Shield, title: 'Commodities & Metals', desc: 'Specialised transport for metals, minerals, and natural resources.' },
-              ].map((svc, i) => (
-                <motion.div
-                  key={svc.title}
-                  className={`${card} group p-6 sm:p-8`}
-                  {...fadeUp}
-                  {...(i > 0 ? { transition: { ...fadeUp.transition, delay: i * 0.1 } } : {})}
-                  {...liftCard}
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#D4AF37]/10">
-                    <svc.Icon size={22} className="text-[#D4AF37]" />
-                  </div>
-                  <h3 className="mt-4 sm:mt-5 text-lg font-semibold text-[#e8e4e0]">{svc.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#8a8580]">{svc.desc}</p>
-                </motion.div>
-              ))}
+            <div className="md:col-span-7">
+              <figure className="ticks relative aspect-[4/3] overflow-hidden border border-line bg-raised md:aspect-[16/10]">
+                <SteelPhoto photo="weldSparks" priority sizes="(min-width: 768px) 58vw, 100vw" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-base/80 via-transparent to-transparent" />
+                <figcaption className="absolute inset-x-0 bottom-0 flex flex-col gap-1 p-5 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                  <span className="label text-fg">In stock</span>
+                  <span className="label text-steel sm:text-right">
+                    IPE · H · PFC · Angle · Tube · Sheet · Plate · Bar · Mesh
+                  </span>
+                </figcaption>
+              </figure>
             </div>
           </div>
-        </section>
+        </Container>
+      </section>
 
-        {/* ── Why Trust Apex ── */}
-        <section id="technology" className="px-4 py-16 sm:py-28">
-          <div className="mx-auto max-w-5xl">
-            <motion.div className="text-center" {...fadeUp}>
-              <p className="text-[10px] tracking-[0.35em] text-[#D4AF37] uppercase mb-3">
-                Proprietary Intelligence
-              </p>
-              <h2 className="text-2xl sm:text-3xl text-[#e8e4e0] md:text-4xl">
-                Why Trust Apex Logistics
-              </h2>
-              <p className="mx-auto mt-3 sm:mt-4 max-w-2xl text-sm leading-relaxed text-[#8a8580] px-2">
-                We don&apos;t rely on consumer-grade navigation. Our proprietary dispatch platform integrates
-                machine learning route optimisation, real-time telematics, and predictive risk modelling
-                to deliver cargo faster and safer than any standard GPS solution.
-              </p>
-            </motion.div>
-
-            {[
-              [
-                { Icon: Brain, title: 'AI-Powered Route Engine', desc: "Our neural-network route planner analyses live traffic telemetry, weather forecasts, road surface data, and historical incident patterns to calculate the optimal corridor for every shipment — routes that Waze and Google Maps simply don't factor in for heavy-freight logistics." },
-                { Icon: Satellite, title: 'Real-Time Telematics & GPS', desc: 'Every vehicle in our fleet transmits live GPS coordinates, speed, fuel levels, and cargo-bay temperature via our proprietary IoT telematics unit. Our operations centre monitors each shipment 24/7, enabling instant rerouting if conditions change en route.' },
-                { Icon: Lock, title: 'Predictive Risk & Security', desc: 'Our risk-scoring algorithm evaluates route segments against crime heatmaps, time-of-day threat levels, and provincial incident databases. High-value loads are automatically assigned armoured corridors and convoy protocols — security built into every dispatch.' },
-              ],
-              [
-                { Icon: Gauge, title: 'Dynamic ETA Forecasting', desc: 'Forget static delivery windows. Our system recalculates ETAs every 60 seconds using live vehicle telemetry and downstream traffic conditions, giving you minute-level accuracy on when your cargo will arrive.' },
-                { Icon: Cpu, title: 'Proprietary Dispatch OS', desc: 'Built in-house, our dispatch operating system replaces fragmented third-party tools with a single command layer: fleet allocation, load optimisation, compliance checks, and proof-of-delivery — all orchestrated through one intelligent platform.' },
-                { Icon: Route, title: 'Heavy-Freight Corridor Mapping', desc: 'Consumer navigation apps optimise for cars. Our corridor database accounts for bridge weight limits, axle restrictions, low-clearance overpasses, and fuel-stop logistics — eliminating costly detours and compliance violations.' },
-              ],
-            ].map((row, ri) => (
-              <div key={ri} className={`${ri === 0 ? 'mt-10 sm:mt-16' : 'mt-4 sm:mt-6'} grid gap-4 sm:gap-6 md:grid-cols-3`}>
-                {row.map((item, i) => (
-                  <motion.div
-                    key={item.title}
-                    className={`${card} p-6 sm:p-8`}
-                    {...fadeUp}
-                    {...(i > 0 ? { transition: { ...fadeUp.transition, delay: i * 0.1 } } : {})}
-                    {...liftCard}
-                  >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#D4AF37]/10">
-                      <item.Icon size={22} className="text-[#D4AF37]" />
-                    </div>
-                    <h3 className="mt-4 sm:mt-5 text-lg font-semibold text-[#e8e4e0]">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[#8a8580]">{item.desc}</p>
-                  </motion.div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Contact ── */}
-        <section id="contact" className="px-4 py-16 sm:py-28">
-          <div className="mx-auto max-w-2xl">
-            <motion.div
-              className={`${card} p-6 sm:p-10`}
-              {...fadeUp}
-              {...liftCard}
-            >
-              <h2 className="text-center text-2xl sm:text-3xl text-[#e8e4e0] md:text-4xl">
-                Contact Operations
-              </h2>
-              <div className="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6 text-sm text-[#8a8580]">
-                <a href="tel:0615456926" className="transition-colors hover:text-[#D4AF37]">
-                  061 545 6926
-                </a>
-                <a href="tel:0714907858" className="transition-colors hover:text-[#D4AF37]">
-                  071 490 7858
-                </a>
-                <a href="mailto:ApexLogistics@gmail.com" className="transition-colors hover:text-[#D4AF37]">
-                  ApexLogistics@gmail.com
-                </a>
-              </div>
-
-              <form className="mt-6 sm:mt-8 space-y-4">
-                <input
-                  type="text"
-                  placeholder="Full name"
-                  className="h-14 w-full rounded-xl border border-white/10 bg-white/5 px-5 text-sm text-[#e8e4e0] placeholder-[#555] outline-none transition focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="h-14 w-full rounded-xl border border-white/10 bg-white/5 px-5 text-sm text-[#e8e4e0] placeholder-[#555] outline-none transition focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
-                />
-                <textarea
-                  placeholder="Describe your route or cargo requirements"
-                  rows={4}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-sm text-[#e8e4e0] placeholder-[#555] outline-none transition focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20"
-                />
-                <button
-                  type="submit"
-                  className="h-14 w-full rounded-xl bg-[#D4AF37] text-sm font-semibold text-black transition hover:bg-[#F3E5AB]"
-                >
-                  Send Request
-                </button>
-              </form>
-            </motion.div>
-          </div>
-        </section>
+      {/* ── Ticker ── */}
+      <div className="overflow-hidden border-y border-line bg-base/70 py-4" aria-hidden>
+        <div className="ticker-track flex w-max">
+          {[0, 1].map((dup) => (
+            <ul key={dup} className="flex shrink-0">
+              {tickerItems.map((t) => (
+                <li key={t} className="label flex items-center whitespace-nowrap px-6 text-steel">
+                  {t}
+                  <span className="ml-12 inline-block h-1.5 w-1.5 bg-molten" />
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
       </div>
+
+      {/* ── Products ── */}
+      <section id="products" className="py-24 md:py-36">
+        <Container>
+          <SectionHead
+            index="01"
+            label="What we stock"
+            title={
+              <>
+                Six ranges.
+                <br />
+                One yard.
+              </>
+            }
+            intro={
+              <p>
+                Common sizes on the floor, cut to your list. If something is out of stock we will tell you, and
+                usually we can get it in.
+              </p>
+            }
+          />
+          <div className="mt-14 md:mt-20">
+            <ProductRows />
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Services ── */}
+      <section id="services" className="py-24 md:py-32">
+        <Container>
+          <div className="grid gap-14 md:grid-cols-12">
+            <div className="md:col-span-5">
+              <div className="md:sticky md:top-28">
+                <figure className="ticks relative aspect-[4/5] overflow-hidden border border-line bg-raised" data-reveal>
+                  <SteelPhoto photo="weldMask" sizes="(min-width: 768px) 40vw, 100vw" />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-base/70 to-transparent" />
+                </figure>
+              </div>
+            </div>
+            <div className="md:col-span-6 md:col-start-7">
+              <div data-reveal>
+                <div className="seam" />
+                <p className="label mt-4 flex gap-4">
+                  <span className="text-molten">02</span>
+                  <span>Services</span>
+                </p>
+                <h2 className="display-lg mt-8">
+                  We do the cutting. You do the building.
+                </h2>
+              </div>
+              <ul className="mt-12 border-t border-line">
+                {services.map((s) => (
+                  <li key={s.id} className="grid grid-cols-[auto_1fr] gap-6 border-b border-line py-8" data-reveal>
+                    <ServiceIcon name={s.icon} size={44} className="text-molten" />
+                    <div>
+                      <h3 className="font-display text-2xl font-extrabold uppercase leading-none md:text-3xl">{s.name}</h3>
+                      <p className="mt-3 text-muted">{s.body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/services" className="btn btn-line mt-10" data-reveal>
+                More on our services <ArrowRight />
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── 20 years ── */}
+      <section className="relative overflow-hidden border-y border-line bg-base/80 py-24 md:py-32">
+        <Container>
+          <div className="grid items-end gap-10 md:grid-cols-12">
+            <p
+              aria-hidden
+              className="font-display text-[11rem] font-extrabold leading-[0.75] text-molten md:col-span-5 md:text-[19rem]"
+              data-reveal
+            >
+              {site.yearsInTrade}
+            </p>
+            <div className="md:col-span-7" data-reveal>
+              <h2 className="display-md">
+                {site.yearsInTrade} years supplying {site.address.locality}&apos;s builders, fabricators and
+                engineers
+              </h2>
+              <p className="mt-6 max-w-xl text-muted">
+                Long enough to know which sizes go fast, which substitutes work, and exactly what a site manager
+                means by &ldquo;urgent&rdquo;.
+              </p>
+            </div>
+          </div>
+
+          <ul className="mt-20 grid border-l border-t border-line sm:grid-cols-2 lg:grid-cols-4">
+            {reasons.map((r, i) => (
+              <li key={r.title} className="border-b border-r border-line p-7 md:p-9" data-reveal style={{ '--reveal-delay': `${i * 80}ms` } as React.CSSProperties}>
+                <p className="label text-molten">0{i + 1}</p>
+                <h3 className="mt-6 font-display text-3xl font-extrabold uppercase leading-none">{r.title}</h3>
+                <p className="mt-4 text-sm text-muted">{r.body}</p>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      {/* ── Who we supply ── */}
+      <section className="py-24 md:py-36">
+        <Container>
+          <SectionHead
+            index="03"
+            label="Who buys from us"
+            title="From one gate to a whole warehouse"
+            intro={<p>Trade or private, large order or a single length. The steel and the service are the same.</p>}
+          />
+          <ul className="mt-14 grid border-l border-t border-line sm:grid-cols-2 lg:grid-cols-3 md:mt-20">
+            {industries.map((ind) => (
+              <li key={ind.name} className="group border-b border-r border-line p-7 transition-colors hover:bg-white/[0.02] md:p-10" data-reveal>
+                <h3 className="font-display text-3xl font-extrabold uppercase leading-none transition-colors group-hover:text-molten">
+                  {ind.name}
+                </h3>
+                <p className="mt-4 text-sm text-muted">{ind.body}</p>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      {/* ── Photo strip ── */}
+      <section aria-label="Steel in our range" className="pb-24 md:pb-36">
+        <Container>
+          <div className="grid gap-4 md:grid-cols-12">
+            <figure className="relative aspect-[4/3] overflow-hidden border border-line bg-raised md:col-span-7" data-reveal>
+              <SteelPhoto photo="girders" sizes="(min-width: 768px) 58vw, 100vw" />
+              <figcaption className="label absolute bottom-0 left-0 bg-base/85 px-4 py-3 text-fg">Structural sections</figcaption>
+            </figure>
+            <div className="grid gap-4 md:col-span-5">
+              <figure className="relative aspect-[16/10] overflow-hidden border border-line bg-raised md:aspect-auto" data-reveal>
+                <SteelPhoto photo="pipes" sizes="(min-width: 768px) 40vw, 100vw" />
+                <figcaption className="label absolute bottom-0 left-0 bg-base/85 px-4 py-3 text-fg">Tube and pipe</figcaption>
+              </figure>
+              <figure className="relative aspect-[16/10] overflow-hidden border border-line bg-raised md:aspect-auto" data-reveal>
+                <SteelPhoto photo="weldDark" sizes="(min-width: 768px) 40vw, 100vw" />
+                <figcaption className="label absolute bottom-0 left-0 bg-base/85 px-4 py-3 text-fg">Fabrication stock</figcaption>
+              </figure>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── How ordering works ── */}
+      <section className="py-24 md:py-32">
+        <Container>
+          <SectionHead index="04" label="How ordering works" title="List in, steel out" />
+          <ol className="relative mt-14 grid gap-10 md:mt-20 md:grid-cols-4 md:gap-0">
+            <span aria-hidden className="absolute left-0 right-0 top-[7px] hidden h-px bg-line-strong md:block" />
+            {process.map((step, i) => (
+              <li key={step.title} className="relative md:pr-10" data-reveal style={{ '--reveal-delay': `${i * 100}ms` } as React.CSSProperties}>
+                <span aria-hidden className="relative z-10 block h-[15px] w-[15px] border border-molten bg-base">
+                  <span className="absolute inset-[3px] bg-molten" />
+                </span>
+                <p className="label mt-6 text-molten">Step 0{i + 1}</p>
+                <h3 className="mt-3 font-display text-3xl font-extrabold uppercase leading-none">{step.title}</h3>
+                <p className="mt-4 text-sm text-muted">{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-24 md:py-32">
+        <Container>
+          <div className="grid gap-14 md:grid-cols-12">
+            <div className="md:col-span-4">
+              <div data-reveal>
+                <div className="seam" />
+                <p className="label mt-4 flex gap-4">
+                  <span className="text-molten">05</span>
+                  <span>Questions</span>
+                </p>
+                <h2 className="display-lg mt-8">Before you order</h2>
+                <p className="mt-6 text-muted">
+                  Anything else, call{' '}
+                  <a href={`tel:${primaryPhone.tel}`} className="text-fg underline decoration-molten underline-offset-4">
+                    {primaryPhone.display}
+                  </a>
+                  .
+                </p>
+              </div>
+            </div>
+            <div className="md:col-span-8">
+              <Faq items={faqs} />
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <QuoteBand />
     </>
   )
 }

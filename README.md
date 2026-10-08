@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Apex Metals
 
-## Getting Started
+Website for Apex Metals, a steel merchant in Johannesburg. Built with Next.js 16 (App Router), Tailwind CSS 4 and React Three Fiber.
 
-First, run the development server:
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # production build, every page is statically generated
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Append `?slowmo=25` to any URL in development to play the intro animation 25× slower. The intro plays once per browser session; open a new tab or private window to see it again.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Where things live
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| What | File |
+| --- | --- |
+| Phone numbers, email, WhatsApp, service areas, years in trade | `src/lib/site.ts` |
+| Products, sizes, services, FAQs, photo choices | `src/lib/content.ts` |
+| Structured data for Google (LocalBusiness, FAQ, breadcrumbs) | `src/lib/schema.ts` |
+| Intro animation (steel blocks slamming together) | `src/components/intro/` |
+| Background sphere and circuit lines | `src/components/QuantumBackground.tsx`, `src/components/DataLines.tsx` |
+| Colours, type and component styles | `src/app/globals.css` |
+| Privacy Policy and Terms & Conditions | `src/app/privacy/page.tsx`, `src/app/terms/page.tsx` |
 
-## Learn More
+## Environment variables
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | The live domain, e.g. `https://www.apexmetals.co.za`. Used for canonical URLs, the sitemap and structured data. On Vercel it falls back to the project's production URL. |
+| `RESEND_API_KEY` | Optional. When set, the quote form emails requests through [Resend](https://resend.com). Without it the form hands the visitor a pre-filled WhatsApp message or email instead. |
+| `QUOTE_TO_EMAIL` | Optional. Where quote emails go. Defaults to the address in `site.ts`. |
+| `QUOTE_FROM_EMAIL` | Optional. Verified sender address on Resend. |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Photos
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Product and workshop photos are loaded from Unsplash (free Unsplash License) by id, listed in `src/lib/content.ts`. Replace them with photographs of the yard and stock when available: real photos help both customers and search rankings.
 
-## Deploy on Vercel
+## After launch
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Set `NEXT_PUBLIC_SITE_URL` to the final domain.
+2. Add the site to Google Search Console and submit `/sitemap.xml`.
+3. Create or claim the Google Business Profile with the same name, phone numbers and area as `site.ts`.
