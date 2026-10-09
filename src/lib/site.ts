@@ -1,10 +1,10 @@
 // Single source of truth for business details. Change them here and every
 // page, the footer, the structured data and the legal pages pick them up.
 
+// The live domain. www.apexmetals.co.za redirects here (set in Vercel).
 function resolveSiteUrl() {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  return 'https://apex-logisticssa.vercel.app'
+  return 'https://apexmetals.co.za'
 }
 
 export const site = {

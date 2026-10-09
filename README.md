@@ -29,7 +29,7 @@ Append `?slowmo=25` to any URL in development to play the intro animation 25× s
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | The live domain. Used for canonical URLs, the sitemap and structured data. Falls back to Vercel's production URL, then to `https://apex-logisticssa.vercel.app`. |
+| `NEXT_PUBLIC_SITE_URL` | Optional. Overrides the live domain (`https://apexmetals.co.za`) used for canonical URLs, the sitemap and structured data. |
 | `RESEND_API_KEY` | Optional. When set, the quote form emails requests through [Resend](https://resend.com). Without it the form hands the visitor a pre-filled WhatsApp message or email instead. |
 | `QUOTE_TO_EMAIL` | Optional. Where quote emails go. Defaults to the address in `site.ts`. |
 | `QUOTE_FROM_EMAIL` | Optional. Verified sender address on Resend. |
