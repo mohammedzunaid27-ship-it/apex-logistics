@@ -3,7 +3,9 @@ import type { Item } from './items'
 import { absoluteUrl, site } from './site'
 
 // schema.org structured data. Kept factual: no ratings, prices or opening
-// hours are published until the business confirms them.
+// hours are published until the business confirms them. Stock items are
+// described as supply services, not Products: Google treats every Product as
+// a shopping listing and flags it as broken when there is no price.
 
 const businessId = `${site.url}/#business`
 const orgId = `${site.url}/#organization`
@@ -79,7 +81,7 @@ export function localBusinessSchema() {
         url: absoluteUrl(`/products/${p.slug}`),
         itemListElement: p.items.map((item) => ({
           '@type': 'Offer',
-          itemOffered: { '@type': 'Product', name: item.name, description: item.spec },
+          itemOffered: { '@type': 'Service', name: `${item.name} supply`, description: item.spec },
         })),
       })),
     },
@@ -130,7 +132,7 @@ export function productCategorySchema(p: Product) {
       name: p.name,
       itemListElement: p.items.map((item) => ({
         '@type': 'Offer',
-        itemOffered: { '@type': 'Product', name: item.name, description: item.spec },
+        itemOffered: { '@type': 'Service', name: `${item.name} supply`, description: item.spec },
       })),
     },
   }
