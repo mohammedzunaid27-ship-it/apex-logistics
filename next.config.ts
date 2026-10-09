@@ -30,6 +30,9 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  async redirects() {
+    return [{ source: '/sitemap', destination: '/sitemap.xml', permanent: true }]
+  },
   async headers() {
     return [
       {
