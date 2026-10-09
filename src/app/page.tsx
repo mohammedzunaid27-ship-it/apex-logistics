@@ -47,18 +47,20 @@ export default function HomePage() {
         <Container>
           <div className="flex items-center justify-between gap-6 border-b border-line pb-4">
             <p className="label">
-              <span className="text-molten">●</span>&nbsp; Steel &amp; metal merchants · {site.address.locality}
+              <span className="text-molten">●</span>&nbsp; Ferrous &amp; non-ferrous metals
             </p>
             <p className="label hidden sm:block">{site.yearsInTrade} years in the trade</p>
           </div>
 
           <h1 className="mt-8 md:mt-12">
-            <span className="sr-only">Steel and metal supplier in Johannesburg: </span>
             <span className="display-xl block">Steel,</span>
             <span className="display-xl block">
               cut to <span className="text-molten">size</span>
             </span>
             <span className="display-xl block text-steel">&amp; delivered.</span>
+            <span className="mt-6 block font-body text-lg font-normal normal-case tracking-normal text-fg md:mt-8 md:text-2xl">
+              Steel and metal supplier in {site.address.locality}, delivering across South Africa
+            </span>
           </h1>
 
           <div className="mt-12 grid gap-10 md:mt-16 lg:grid-cols-12 lg:gap-12">

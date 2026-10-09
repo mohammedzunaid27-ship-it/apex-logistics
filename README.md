@@ -19,6 +19,7 @@ Append `?slowmo=25` to any URL in development to play the intro animation 25× s
 | --- | --- |
 | Phone numbers, email, WhatsApp, service areas, years in trade | `src/lib/site.ts` |
 | Product ranges and grades, services, FAQs, photo choices | `src/lib/content.ts` |
+| Grade and product pages (EN19, Hardox, copper busbar…) | `src/lib/items.ts` |
 | Structured data for Google (LocalBusiness, FAQ, breadcrumbs) | `src/lib/schema.ts` |
 | Intro animation (steel blocks slamming together) | `src/components/intro/` |
 | Background sphere and circuit lines | `src/components/QuantumBackground.tsx`, `src/components/DataLines.tsx` |
@@ -30,6 +31,7 @@ Append `?slowmo=25` to any URL in development to play the intro animation 25× s
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Optional. Overrides the live domain (`https://apexmetals.co.za`) used for canonical URLs, the sitemap and structured data. |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional. The code from Google Search Console's HTML tag method, if you verify that way instead of by DNS. |
 | `RESEND_API_KEY` | Optional. When set, the quote form emails requests through [Resend](https://resend.com). Without it the form hands the visitor a pre-filled WhatsApp message or email instead. |
 | `QUOTE_TO_EMAIL` | Optional. Where quote emails go. Defaults to the address in `site.ts`. |
 | `QUOTE_FROM_EMAIL` | Optional. Verified sender address on Resend. |

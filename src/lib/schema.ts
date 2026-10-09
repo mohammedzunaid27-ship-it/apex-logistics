@@ -1,4 +1,5 @@
 import { faqs as homeFaqs, products, services, type Product } from './content'
+import type { Item } from './items'
 import { absoluteUrl, site } from './site'
 
 // schema.org structured data. Kept factual: no ratings, prices or opening
@@ -132,5 +133,33 @@ export function productCategorySchema(p: Product) {
         itemOffered: { '@type': 'Product', name: item.name, description: item.spec },
       })),
     },
+  }
+}
+
+export function itemSchema(item: Item, rangeName: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: `${item.name} supplier in ${site.address.locality}`,
+    serviceType: `${item.name} supply`,
+    category: rangeName,
+    description: item.intro,
+    url: absoluteUrl(`/products/${item.range}/${item.slug}`),
+    provider: { '@id': businessId },
+    areaServed: { '@type': 'Country', name: site.address.countryName },
+  }
+}
+
+export function itemListSchema(name: string, entries: { name: string; path: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name,
+    itemListElement: entries.map((e, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: e.name,
+      url: absoluteUrl(e.path),
+    })),
   }
 }

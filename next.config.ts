@@ -36,6 +36,12 @@ const nextConfig: NextConfig = {
         source: '/(.*)',
         headers: securityHeaders,
       },
+      {
+        // keep *.vercel.app copies of the site out of search results
+        source: '/(.*)',
+        has: [{ type: 'host', value: '(?<host>.+)\\.vercel\\.app' }],
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
     ]
   },
 }

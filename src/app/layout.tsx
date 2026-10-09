@@ -70,6 +70,9 @@ export const metadata: Metadata = {
   creator: site.name,
   publisher: site.name,
   category: 'business',
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
   alternates: { canonical: '/' },
   formatDetection: { telephone: true, email: true, address: false },
   robots: {

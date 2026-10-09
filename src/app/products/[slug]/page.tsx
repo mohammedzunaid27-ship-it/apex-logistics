@@ -2,12 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getProduct, products, services } from '@/lib/content'
+import { itemsForRange } from '@/lib/items'
 import { site } from '@/lib/site'
 import { pageMeta } from '@/lib/meta'
 import { faqSchema, productCategorySchema } from '@/lib/schema'
 import { JsonLd } from '@/components/JsonLd'
 import { SteelPhoto } from '@/components/SteelPhoto'
-import { ArrowRight, ProfileIcon, ServiceIcon } from '@/components/Icons'
+import { ArrowRight, ArrowUpRight, ProfileIcon, ServiceIcon } from '@/components/Icons'
 import { Breadcrumbs, Container, Faq, ProductRows, QuoteBand } from '@/components/ui'
 
 interface Props {
@@ -42,6 +43,7 @@ export default async function ProductPage({ params }: Props) {
 
   const index = products.indexOf(p) + 1
   const others = products.filter((o) => o.slug !== p.slug)
+  const rangeItems = itemsForRange(p.slug)
 
   return (
     <>
@@ -139,6 +141,34 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </Container>
       </section>
+
+      {/* ── Grade and product pages in this range ── */}
+      {rangeItems.length > 0 && (
+        <section className="py-12 md:py-20">
+          <Container>
+            <div className="seam" />
+            <h2 className="display-md mt-6" data-reveal>
+              {p.name}: grades and products
+            </h2>
+            <ul className="mt-10 grid border-l border-t border-line sm:grid-cols-2 lg:grid-cols-3">
+              {rangeItems.map((it) => (
+                <li key={it.slug} className="border-b border-r border-line">
+                  <Link
+                    href={`/products/${p.slug}/${it.slug}`}
+                    className="group flex h-full flex-col gap-3 p-6 transition-colors hover:bg-white/[0.02]"
+                  >
+                    <span className="flex items-start justify-between gap-4">
+                      <span className="font-display text-2xl font-extrabold uppercase leading-none">{it.name}</span>
+                      <ArrowUpRight className="shrink-0 text-muted transition-colors group-hover:text-molten" />
+                    </span>
+                    <span className="text-sm text-muted">{it.short}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </section>
+      )}
 
       {/* ── Uses + services ── */}
       <section className="py-16 md:py-24">
