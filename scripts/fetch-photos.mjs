@@ -16,19 +16,24 @@ let sharp = null
 try {
   sharp = (await import('sharp')).default
 } catch {
-  // sharp ships with Next.js; without it the original file is kept as is
+  // sharp ships with Next.js; without it only genuine JPEGs are kept, as downloaded
 }
 
+const MAX_BYTES = 15_000_000
+
 async function download(url) {
+  if (new URL(url).protocol !== 'https:') throw new Error('not https')
   const res = await fetch(url, {
     redirect: 'follow',
     signal: AbortSignal.timeout(20000),
     headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ApexMetalsSiteBuild/1.0)', Accept: 'image/*' },
   })
   const type = res.headers.get('content-type') || ''
-  if (!res.ok || !type.startsWith('image/')) throw new Error(`${res.status} ${type}`)
+  if (!res.ok || !type.startsWith('image/') || type.includes('svg')) throw new Error(`${res.status} ${type}`)
+  if (Number(res.headers.get('content-length') ?? 0) > MAX_BYTES) throw new Error('too large')
   const buf = Buffer.from(await res.arrayBuffer())
   if (buf.length < 30_000) throw new Error(`too small (${buf.length} bytes)`)
+  if (buf.length > MAX_BYTES) throw new Error('too large')
   return buf
 }
 
@@ -46,7 +51,10 @@ for (const [key, list] of Object.entries(sources)) {
     try {
       let buf = await download(url)
       if (sharp) {
+        // re-encoding also strips any metadata or payload riding along in the file
         buf = await sharp(buf).rotate().resize({ width: 2000, withoutEnlargement: true }).jpeg({ quality: 80, mozjpeg: true }).toBuffer()
+      } else if (buf[0] !== 0xff || buf[1] !== 0xd8) {
+        throw new Error('not a JPEG')
       }
       await writeFile(join(outDir, `${key}.jpg`), buf)
       manifest[key] = { file: `/stock-cache/${key}.jpg`, alt }

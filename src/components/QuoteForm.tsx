@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { enquiryTypes, products } from '@/lib/content'
 import { site, whatsappLink } from '@/lib/site'
@@ -37,6 +37,11 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
   const [sentCopy, setSentCopy] = useState(empty)
+  // time the form has been on screen; the server treats instant submits as bots
+  const shownAt = useRef(0)
+  useEffect(() => {
+    shownAt.current = Date.now()
+  }, [])
 
   function update(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
@@ -54,7 +59,7 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
       const res = await fetch('/api/quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, elapsed: Date.now() - shownAt.current }),
       })
       const data = await res.json().catch(() => ({}))
       if (res.ok && data.ok) {
@@ -151,25 +156,25 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
         <label htmlFor="q-name" className={labelCls}>
           Name <span className="text-molten">*</span>
         </label>
-        <input id="q-name" name="name" autoComplete="name" required value={form.name} onChange={update} className="field" />
+        <input id="q-name" name="name" autoComplete="name" required maxLength={120} value={form.name} onChange={update} className="field" />
       </div>
       <div>
         <label htmlFor="q-phone" className={labelCls}>
           Phone <span className="text-molten">*</span>
         </label>
-        <input id="q-phone" name="phone" type="tel" autoComplete="tel" required value={form.phone} onChange={update} className="field" />
+        <input id="q-phone" name="phone" type="tel" autoComplete="tel" required maxLength={40} value={form.phone} onChange={update} className="field" />
       </div>
       <div>
         <label htmlFor="q-email" className={labelCls}>
           Email
         </label>
-        <input id="q-email" name="email" type="email" autoComplete="email" value={form.email} onChange={update} className="field" />
+        <input id="q-email" name="email" type="email" autoComplete="email" maxLength={160} value={form.email} onChange={update} className="field" />
       </div>
       <div>
         <label htmlFor="q-company" className={labelCls}>
           Company
         </label>
-        <input id="q-company" name="company" autoComplete="organization" value={form.company} onChange={update} className="field" />
+        <input id="q-company" name="company" autoComplete="organization" maxLength={160} value={form.company} onChange={update} className="field" />
       </div>
       <div>
         <label htmlFor="q-product" className={labelCls}>
@@ -194,6 +199,7 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
           id="q-area"
           name="area"
           placeholder="Town or suburb"
+          maxLength={120}
           value={form.area}
           onChange={update}
           className="field"
@@ -208,6 +214,7 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
           name="message"
           rows={5}
           required
+          maxLength={3000}
           placeholder={'e.g. 4 × EN19 Ø50 mm, cut to 300 mm\n2 sheets 3 mm aluminium treadplate'}
           value={form.message}
           onChange={update}
