@@ -3,10 +3,12 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getProduct } from '@/lib/content'
 import { getItem, itemBySlug, items } from '@/lib/items'
+import { guidesForItem } from '@/lib/guides'
 import { site } from '@/lib/site'
 import { pageMeta } from '@/lib/meta'
 import { faqSchema, itemSchema } from '@/lib/schema'
 import { JsonLd } from '@/components/JsonLd'
+import { GuideLinks } from '@/components/GuideBody'
 import { ArrowRight, ArrowUpRight, ProfileIcon } from '@/components/Icons'
 import { Breadcrumbs, Container, Faq, QuoteBand } from '@/components/ui'
 
@@ -159,6 +161,8 @@ export default async function ItemPage({ params }: Props) {
           </div>
         </Container>
       </section>
+
+      <GuideLinks guides={guidesForItem(it.slug)} />
 
       {related.length > 0 && (
         <section className="py-12 md:py-20">

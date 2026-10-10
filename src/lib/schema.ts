@@ -1,4 +1,5 @@
 import { faqs as homeFaqs, products, services, type Product } from './content'
+import type { Guide } from './guides'
 import type { Item } from './items'
 import { absoluteUrl, site } from './site'
 
@@ -163,5 +164,24 @@ export function itemListSchema(name: string, entries: { name: string; path: stri
       name: e.name,
       url: absoluteUrl(e.path),
     })),
+  }
+}
+
+export function articleSchema(g: Guide) {
+  const url = absoluteUrl(`/guides/${g.slug}`)
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: g.title,
+    description: g.description,
+    url,
+    mainEntityOfPage: url,
+    image: absoluteUrl(`/guides/${g.slug}/opengraph-image`),
+    datePublished: g.published,
+    dateModified: g.updated,
+    inLanguage: 'en-ZA',
+    keywords: g.keywords.join(', '),
+    author: { '@type': 'Organization', '@id': orgId, name: site.name, url: site.url },
+    publisher: { '@type': 'Organization', '@id': orgId, name: site.name, logo: { '@type': 'ImageObject', url: absoluteUrl('/logo.png') } },
   }
 }

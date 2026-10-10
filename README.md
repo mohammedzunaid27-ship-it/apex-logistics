@@ -20,7 +20,10 @@ Append `?slowmo=25` to any URL in development to play the intro animation 25× s
 | Phone numbers, email, WhatsApp, service areas, years in trade | `src/lib/site.ts` |
 | Product ranges and grades, services, FAQs, photo choices | `src/lib/content.ts` |
 | Grade and product pages (EN19, Hardox, copper busbar…) | `src/lib/items.ts` |
-| Structured data for Google (LocalBusiness, FAQ, breadcrumbs) | `src/lib/schema.ts` |
+| Buying guides (EN19 vs EN24, 304 vs 316, pipe sizes…) | `src/lib/guides.ts` |
+| Structured data for Google (LocalBusiness, FAQ, breadcrumbs, articles) | `src/lib/schema.ts` |
+| Security headers and Content Security Policy | `next.config.ts` |
+| Quote form endpoint (validation, rate limits, email) | `src/app/api/quote/route.ts` |
 | Intro animation (steel blocks slamming together) | `src/components/intro/` |
 | Background sphere and circuit lines | `src/components/QuantumBackground.tsx`, `src/components/DataLines.tsx` |
 | Colours, type and component styles | `src/app/globals.css` |
@@ -35,6 +38,19 @@ Append `?slowmo=25` to any URL in development to play the intro animation 25× s
 | `RESEND_API_KEY` | Optional. When set, the quote form emails requests through [Resend](https://resend.com). Without it the form hands the visitor a pre-filled WhatsApp message or email instead. |
 | `QUOTE_TO_EMAIL` | Optional. Where quote emails go. Defaults to the address in `site.ts`. |
 | `QUOTE_FROM_EMAIL` | Optional. Verified sender address on Resend. |
+
+## Search and AI crawlers
+
+- `/sitemap.xml` and `/robots.txt` are generated from the content files, so new ranges, grades and guides are listed automatically. Bump the date in `src/app/sitemap.ts` when copy changes; guides carry their own `updated` date.
+- `/llms.txt` is a plain-text summary of the site for AI assistants, also generated from the content files.
+- Search engine crawlers skip the intro animation (the content is the same; only the animation is skipped).
+
+## Security
+
+- Headers (CSP, HSTS, frame, referrer and permissions policies) are set for every response in `next.config.ts`. The site loads nothing from other domains; if you add a third-party script, chat widget or analytics, its domain has to be added to the CSP or the browser will block it.
+- The quote endpoint only accepts same-origin JSON from the site's own form, validates every field and rate limits per IP. Bots that fill the hidden field or submit instantly get a fake success.
+- `/.well-known/security.txt` gives a contact for reporting security problems. Its expiry renews on every deploy, so deploy at least once a year.
+- Run `npm audit --omit=dev` now and then and keep `next` on the latest patch release.
 
 ## Photos
 

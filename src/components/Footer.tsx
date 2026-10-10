@@ -43,6 +43,7 @@ export function Footer() {
             <p className="label mb-3 text-fg md:mb-5">Company</p>
             <ul className="text-sm text-muted">
               <li><Link href="/services" className="block py-2.5 hover:text-fg lg:py-1.5">Services</Link></li>
+              <li><Link href="/guides" className="block py-2.5 hover:text-fg lg:py-1.5">Buying guides</Link></li>
               <li><Link href="/about" className="block py-2.5 hover:text-fg lg:py-1.5">About</Link></li>
               <li><Link href="/contact" className="block py-2.5 hover:text-fg lg:py-1.5">Contact</Link></li>
               <li><Link href="/contact#quote" className="block py-2.5 hover:text-fg lg:py-1.5">Request a quote</Link></li>

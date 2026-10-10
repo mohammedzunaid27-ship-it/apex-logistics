@@ -9,6 +9,7 @@ import { primaryPhone, site, whatsappLink } from '@/lib/site'
 const links = [
   { href: '/products', label: 'Products' },
   { href: '/services', label: 'Services' },
+  { href: '/guides', label: 'Guides' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ]

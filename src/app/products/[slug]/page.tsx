@@ -3,10 +3,12 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getProduct, products, services } from '@/lib/content'
 import { itemsForRange } from '@/lib/items'
+import { guidesForRange } from '@/lib/guides'
 import { site } from '@/lib/site'
 import { pageMeta } from '@/lib/meta'
 import { faqSchema, productCategorySchema } from '@/lib/schema'
 import { JsonLd } from '@/components/JsonLd'
+import { GuideLinks } from '@/components/GuideBody'
 import { SteelPhoto } from '@/components/SteelPhoto'
 import { ArrowRight, ArrowUpRight, ProfileIcon, ServiceIcon } from '@/components/Icons'
 import { Breadcrumbs, Container, Faq, ProductRows, QuoteBand } from '@/components/ui'
@@ -221,6 +223,8 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </Container>
       </section>
+
+      <GuideLinks guides={guidesForRange(p.slug)} />
 
       {/* ── Other ranges ── */}
       <section className="py-16 md:py-24">

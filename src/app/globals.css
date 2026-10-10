@@ -8,7 +8,7 @@
   --line-strong: rgba(214, 222, 230, 0.2);
   --fg: #e7eaed;
   --muted: #959ea6;
-  --faint: #5f676e;
+  --faint: #7c848b;
   --steel: #b8c1c9;
   --molten: #ff6a1f;
   --molten-hot: #ffb27a;
@@ -337,6 +337,68 @@ select.field option {
 .prose-steel strong {
   color: var(--fg);
   font-weight: 500;
+}
+
+/* Data tables scroll sideways inside their own box on narrow screens */
+.prose-steel .table-scroll {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: rgba(10, 11, 12, 0.88);
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose-steel .table-scroll:focus-visible {
+  outline: 2px solid var(--molten);
+  outline-offset: 2px;
+}
+
+.prose-steel table {
+  width: 100%;
+  min-width: 30rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.prose-steel caption {
+  caption-side: bottom;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.8rem;
+  color: var(--faint);
+  border-top: 1px solid var(--line);
+}
+
+.prose-steel th,
+.prose-steel td {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.prose-steel thead th {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.prose-steel tbody th {
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.prose-steel td {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.prose-steel tbody tr:last-child > * {
+  border-bottom: 0;
 }
 
 /* ── Scrollbar ── */

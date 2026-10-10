@@ -103,7 +103,8 @@ export const metadata: Metadata = {
 
 // Runs before first paint: marks JS as available and decides whether the
 // intro plays (once per browser session) so the overlay never flashes.
-const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{if(!sessionStorage.getItem('apex-intro-seen')){d.classList.add('intro-play');window.__introFailsafe=setTimeout(function(){d.classList.remove('intro-play')},7000)}}catch(e){}})();`
+// Search engine crawlers skip it and render the page straight away.
+const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{if(!/bot|crawl|spider|slurp|mediapartners/i.test(navigator.userAgent)&&!sessionStorage.getItem('apex-intro-seen')){d.classList.add('intro-play');window.__introFailsafe=setTimeout(function(){d.classList.remove('intro-play')},7000)}}catch(e){}})();`
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
