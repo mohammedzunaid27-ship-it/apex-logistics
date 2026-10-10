@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="#0a0b0c"/>
-  <g transform="translate(6 16)">
+  <rect width="64" height="64" rx="12.8" fill="#0a0b0c"/>
+  <g transform="translate(5.12 15.46) scale(1.0338)">
     <path d="M0 0H25V6L30 5V13L25 12V19L20 18V26L25 25V32H0Z" fill="#b8c1c9"/>
     <path d="M52 0H25V6L30 5V13L25 12V19L20 18V26L25 25V32H52Z" fill="#5f676e"/>
-    <path d="M25 0V6L30 5V13L25 12V19L20 18V26L25 25V32" fill="none" stroke="#ff6a1f" stroke-width="2"/>
+    <path d="M25 0V6L30 5V13L25 12V19L20 18V26L25 25V32" fill="none" stroke="#ff6a1f" stroke-width="2.8" stroke-linejoin="round"/>
   </g>
 </svg>
