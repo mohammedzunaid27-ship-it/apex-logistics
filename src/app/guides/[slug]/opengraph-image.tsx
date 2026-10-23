@@ -6,6 +6,8 @@ import { site } from '@/lib/site'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 export const alt = `${site.name} buying guide`
+// Every image is built at deploy time; unknown slugs get a 404 instead of a render
+export const dynamicParams = false
 
 export function generateStaticParams() {
   return guides.map((g) => ({ slug: g.slug }))
