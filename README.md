@@ -33,7 +33,7 @@ Append `?slowmo=25` to any URL in development to play the intro animation 25× s
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Optional. Overrides the live domain (`https://apexmetals.co.za`) used for canonical URLs, the sitemap and structured data. |
+| `NEXT_PUBLIC_SITE_URL` | Optional. Overrides the live address (`https://www.apexmetals.co.za`, the host Vercel serves; the bare domain redirects to it) used for canonical URLs, the sitemap and structured data. |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional. The code from Google Search Console's HTML tag method, if you verify that way instead of by DNS. |
 | `RESEND_API_KEY` | Optional. When set, the quote form emails requests through [Resend](https://resend.com). Without it the form hands the visitor a pre-filled WhatsApp message or email instead. |
 | `QUOTE_TO_EMAIL` | Optional. Where quote emails go. Defaults to the address in `site.ts`. |

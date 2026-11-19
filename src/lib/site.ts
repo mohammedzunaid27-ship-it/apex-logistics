@@ -1,10 +1,12 @@
 // Single source of truth for business details. Change them here and every
 // page, the footer, the structured data and the legal pages pick them up.
 
-// The live domain. www.apexmetals.co.za redirects here (set in Vercel).
+// The live address. Vercel serves the site on www and 308-redirects the bare
+// domain to it, so canonicals, the sitemap and structured data must use www too:
+// pointing them at the bare domain sends Google to a redirect from every page.
 function resolveSiteUrl() {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
-  return 'https://apexmetals.co.za'
+  return 'https://www.apexmetals.co.za'
 }
 
 export const site = {
