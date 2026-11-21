@@ -43,6 +43,18 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
     shownAt.current = Date.now()
   }, [])
 
+  // The result card is far shorter than the form it replaces, so on a phone it
+  // lands above the screen and the WhatsApp/Email buttons are out of sight.
+  // Bring its top just under the fixed header and focus it for screen readers.
+  const resultRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = resultRef.current
+    if (!el || (status !== 'sent' && status !== 'manual')) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 96, behavior: reduce ? 'auto' : 'smooth' })
+    el.focus({ preventScroll: true })
+  }, [status])
+
   function update(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
     if (error) setError('')
@@ -83,7 +95,7 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
 
   if (status === 'sent') {
     return (
-      <div className="panel ticks p-8 md:p-12" role="status">
+      <div ref={resultRef} tabIndex={-1} className="panel ticks p-8 outline-none md:p-12" role="status">
         <p className="label text-molten">Received</p>
         <h3 className="display-md mt-4">Thanks, {sentCopy.name.split(' ')[0]}.</h3>
         <p className="mt-4 max-w-md text-muted">
@@ -100,7 +112,7 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
   if (status === 'manual') {
     const body = compose(sentCopy)
     return (
-      <div className="panel ticks p-8 md:p-12" role="status">
+      <div ref={resultRef} tabIndex={-1} className="panel ticks p-8 outline-none md:p-12" role="status">
         <p className="label text-molten">One more tap</p>
         <h3 className="display-md mt-4">Send it straight to us</h3>
         <p className="mt-4 max-w-md text-muted">
