@@ -17,7 +17,7 @@ export const site = {
   tagline: 'Steel and metal supply, cut to size, delivered nationwide',
   description:
     'Mild and stainless steel, aluminium, copper, brass, bronze, EN steels and Hardox from Johannesburg. Cut to size and delivered nationwide. 20 years in metal.',
-  email: 'apexmetals@gmail.com',
+  email: 'apexmetalsa07@gmail.com',
   phones: [
     { display: '061 545 6126', tel: '+27615456126' },
     { display: '071 490 7858', tel: '+27714907858' },
