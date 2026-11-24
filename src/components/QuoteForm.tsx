@@ -124,7 +124,7 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
             <WhatsAppIcon size={16} /> WhatsApp
           </a>
           <a
-            href={`mailto:${site.email}?subject=${encodeURIComponent('Quote request')}&body=${encodeURIComponent(body)}`}
+            href={`mailto:${site.salesEmail}?subject=${encodeURIComponent('Quote request')}&body=${encodeURIComponent(body)}`}
             className="btn btn-line"
           >
             <MailIcon size={14} /> Email

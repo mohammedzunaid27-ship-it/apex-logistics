@@ -11,7 +11,7 @@ import { Container, Faq, PageHero } from '@/components/ui'
 
 export const metadata: Metadata = pageMeta({
   title: 'Contact & Quotes',
-  description: `Get a steel quote from ${site.name} in ${site.address.locality}. Call ${site.phones[0].display}, WhatsApp or email ${site.email} with your sizes and quantities.`,
+  description: `Get a steel quote from ${site.name} in ${site.address.locality}. Call ${site.phones[0].display}, WhatsApp or email ${site.salesEmail} with your sizes and quantities.`,
   path: '/contact',
 })
 
@@ -60,15 +60,20 @@ export default function ContactPage() {
                     <WhatsAppIcon size={20} className="text-[#25d366]" />
                   </a>
                 </li>
-                <li className="border-b border-line">
-                  <a href={`mailto:${site.email}`} className="group flex items-center justify-between gap-4 py-6">
-                    <span className="min-w-0">
-                      <span className="label block">Email</span>
-                      <span className="mt-2 block truncate text-xl transition-colors group-hover:text-molten">{site.email}</span>
-                    </span>
-                    <MailIcon size={18} className="shrink-0 text-muted" />
-                  </a>
-                </li>
+                {[
+                  { label: 'Sales & quotes', address: site.salesEmail },
+                  { label: 'General enquiries', address: site.email },
+                ].map((e) => (
+                  <li key={e.address} className="border-b border-line">
+                    <a href={`mailto:${e.address}`} className="group flex items-center justify-between gap-4 py-6">
+                      <span className="min-w-0">
+                        <span className="label block">{e.label}</span>
+                        <span className="mt-2 block truncate text-xl transition-colors group-hover:text-molten">{e.address}</span>
+                      </span>
+                      <MailIcon size={18} className="shrink-0 text-muted" />
+                    </a>
+                  </li>
+                ))}
                 <li className="border-b border-line py-6">
                   <span className="label flex items-center gap-2">
                     <PinIcon size={13} /> Yard

@@ -58,9 +58,11 @@ export function Footer() {
                   <a href={`tel:${p.tel}`} className="block py-2.5 hover:text-fg lg:py-1.5">{p.display}</a>
                 </li>
               ))}
-              <li>
-                <a href={`mailto:${site.email}`} className="block break-all py-2.5 hover:text-fg lg:py-1.5">{site.email}</a>
-              </li>
+              {[site.salesEmail, site.email].map((address) => (
+                <li key={address}>
+                  <a href={`mailto:${address}`} className="block break-all py-2.5 hover:text-fg lg:py-1.5">{address}</a>
+                </li>
+              ))}
               <li>
                 <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="block py-2.5 hover:text-fg lg:py-1.5">
                   WhatsApp

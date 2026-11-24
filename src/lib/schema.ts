@@ -25,6 +25,7 @@ export function organizationSchema() {
       '@type': 'ContactPoint',
       telephone: p.tel,
       contactType: 'sales',
+      email: site.salesEmail,
       areaServed: 'ZA',
       availableLanguage: ['English', 'Afrikaans', 'Zulu'],
     })),

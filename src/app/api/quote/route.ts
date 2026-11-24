@@ -163,7 +163,7 @@ export async function POST(request: NextRequest) {
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       from: process.env.QUOTE_FROM_EMAIL ?? 'Apex Metals website <onboarding@resend.dev>',
-      to: [process.env.QUOTE_TO_EMAIL ?? site.email],
+      to: [process.env.QUOTE_TO_EMAIL ?? site.salesEmail],
       reply_to: data.email || undefined,
       subject,
       text,

@@ -14,7 +14,7 @@ export function GET() {
     '',
     `> Steel and metal supplier in ${site.address.locality}, ${site.address.countryName}, with ${site.yearsInTrade} years in the metal trade. Mild and stainless steel, aluminium, copper, brass, bronze, cast iron, engineering steels, Hardox wear plate and schedule pipe. Full lengths or cut to size, delivered anywhere in South Africa.`,
     '',
-    `Phone ${site.phones.map((p) => p.display).join(' or ')}. WhatsApp ${site.whatsapp.display}. Email ${site.email}. Quotes: ${absoluteUrl('/contact')}`,
+    `Phone ${site.phones.map((p) => p.display).join(' or ')}. WhatsApp ${site.whatsapp.display}. Email ${site.salesEmail} for quotes and orders, ${site.email} for anything else. Quotes: ${absoluteUrl('/contact')}`,
     '',
     '## Product ranges',
     ...products.map((p) => link(p.name, `/products/${p.slug}`, p.short)),
